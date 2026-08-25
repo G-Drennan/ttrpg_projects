@@ -63,10 +63,9 @@ class CTableLibrary: #contains an arr of CRollTables
             for rt in self.RollTables:
                     rt.markdown_render()
         if render_type == 'GUI':
-            st.markdown("# ROLL TABLE LIBRARY") 
+            #st.markdown("# ROLL TABLE LIBRARY") 
             for rt in self.RollTables:
-                #print(
-               
+  
 
                 rt._GUI_fragment() 
                 #Stack all tables together, add a search bar that searches name and tags of the CRollTable, 
@@ -88,10 +87,11 @@ class CRollTable:
         self.folderId = folderId
         self.created_at = created_at
 
-    def markdown_render(self, ): 
-        md = MdUtils(file_name=self.name)
-
-        md.new_header(level=1, title=self.name)
+    def markdown_render(self, create_file=True, output_txt=False):
+        md = MdUtils(file_name=self.name) 
+        t_header = not output_txt
+        if t_header:
+            md.new_header(level=1, title=self.name)
         table_text = [] 
         tableHeader = ["Roll", "Name"]
         row_entries = self._extract_enties()
@@ -102,9 +102,13 @@ class CRollTable:
             columns=2,
             rows=len(self.entries)+1,  
             text= table_text
-        )
-
-        md.create_md_file()
+        ) 
+        
+        if output_txt:
+            return md.get_md_text()
+        
+        if create_file:
+            md.create_md_file()
 
     def _extract_enties(self):
         row_entries = []
@@ -137,10 +141,13 @@ class CRollTable:
     def _GUI_fragment(self):
         #button to roll then display the roll_value
         st.markdown(f"## {self.name}") 
-        if st.button("🎲 Roll"):
+        if st.button("🎲 Roll", key=self.id+'1'):
             
             st.write(self._roll_value(self._roll())) 
 
+        if st.button("Display Table", key=self.id+'2'): 
+                    text = self.markdown_render(create_file = False, output_txt = True)
+                    st.markdown(text)  
         #Hide the table untill a button is hit
 
     
@@ -154,80 +161,3 @@ def main():
 if __name__ == "__main__":
     main()
 
-
-#Junk
-
-    '''def _html_fragment(self): 
-
-        template = Template("""
-        <div class="roll-table"
-            data-table-id="{{ table_id }}">
-
-            <h2>{{ table_name }}</h2>
-
-            {{ roll_button }}
-
-            {{ roll_script }}
-
-            {{ roll_display }} 
-
-        </div>
-        """)
-
-        return template.render(
-            table_id=self.id,
-            table_name=self.name,
-            roll_button=self._html_roll_button(),
-            roll_script=self._html_roll_script(),
-            roll_display=self._html_display_roll()
-        )
-
-    def _html_roll_button(self): 
-        template = Template("""
-            <button
-                class="roll-btn"
-                data-table-id="{{ table_id }}">
-                🎲 Roll
-            </button>
-            """) 
-
-        return template.render(table_id=self.id)
-
-    def _html_display_roll(self): 
-        template = Template("""
-        <div
-            class="roll-result"
-            id="result-{{ table_id }}">
-
-            No roll yet     
-
-        </div>
-        """) #
-
-        return template.render(
-            table_id=self.id
-        )
-
-    def _html_roll_script(self):
-        template = Template("""
-        <script>
-        function roll_{{ table_id_safe }}()
-        {
-            const maxRoll = {{ max_roll }};
-            const roll = Math.floor(Math.random() * maxRoll);
-
-            console.log(
-                "Table:",
-                "{{ table_name }}",
-                "Roll:",
-                roll
-            );
-        }
-        </script>
-        """)
-
-        return template.render(
-            table_id_safe=self.id.replace("-", "_"),
-            table_name=self.name,
-            max_roll=len(self.entries)-1
-        )'''
