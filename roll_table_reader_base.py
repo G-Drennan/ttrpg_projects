@@ -2,6 +2,7 @@
 import os 
 import json
 from pathlib import Path 
+import random
 
 #from markdownify import markdownify #Converts HTML → Markdown.
 from mdutils.mdutils import MdUtils 
@@ -58,9 +59,16 @@ class CTableLibrary: #contains an arr of CRollTables
 
     def render(self,render_type: str):
 
-        if render_type is 'md': 
+        if render_type == 'md': 
             for rt in self.RollTables:
                     rt.markdown_render()
+        if render_type == 'html':
+            for rt in self.RollTables:
+                n = rt._roll()
+                print(rt._roll_value(n)) 
+
+    
+    #search rolltable names
 
 class CRollTable:
     def __init__(self,  name, columns, entries, id, description, tags, diceType, rangeMode, rollExpression, folderId, created_at):
@@ -114,6 +122,17 @@ class CRollTable:
             mstring += e
         return mstring
 
+    def _roll(self):
+        #genrate a number from 0 to len(self.entries)
+        max = len(self.entries) -1
+        #print(self.entries[max-1])  
+        return random.randint(0, max)
+
+    def _roll_value(self, n):
+        return self._unpack_list(self.entries[n]['results'])
+
+    #_html_fragment
+
 
       
 
@@ -121,7 +140,7 @@ def main():
     fp = Path("./tables/rollTableLibrary.json")
     tl = CTableLibrary(fp) 
 
-    tl.render(render_type = 'md') 
+    tl.render(render_type = 'html') 
 
 if __name__ == "__main__":
     main()
