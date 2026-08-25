@@ -6,8 +6,8 @@
       "id": "8877539c-924a-4520-ac43-7d52fe0ce67b",
       "name": "Name Generator (CHICKEN EDITION)",
       "description": "",
-      "tags": [],
-      "diceType": "d20",
+      "tags": ["names", "npcs"], 
+      "diceType": "d50",
       "rangeMode": false,
       "rollExpression": "d50",
       "columns": [
@@ -425,8 +425,8 @@
       "id": "9e750e8f-7f8f-4dd7-9efb-5100ef5990fd",
       "name": "Baddie Bedazzlement Table",
       "description": "Extra flavor to tack onto a group of minions or low level monsters to make them stand out. Pick your baddies (skeletons, goblins, fairies, etc.), and roll for pizzaz, using the elements to spice up attacks (piña coladas as molotov cocktails for tourist kobolds, glitter bombs for pirate ravers, etc.) ",
-      "tags": [],
-      "diceType": "d20",
+      "tags": ["flavour", "enemies"],
+      "diceType": "d10", 
       "rangeMode": false,
       "rollExpression": "d10", 
 
