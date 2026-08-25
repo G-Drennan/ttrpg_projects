@@ -3,9 +3,9 @@ import os
 import json
 from pathlib import Path 
 import random
-
 #from markdownify import markdownify #Converts HTML → Markdown.
 from mdutils.mdutils import MdUtils 
+import streamlit as st   #python -m streamlit run roll_table_reader_base.py
 
 
 class CTableLibrary: #contains an arr of CRollTables
@@ -62,11 +62,15 @@ class CTableLibrary: #contains an arr of CRollTables
         if render_type == 'md': 
             for rt in self.RollTables:
                     rt.markdown_render()
-        if render_type == 'html':
+        if render_type == 'GUI':
+            st.markdown("# ROLL TABLE LIBRARY") 
             for rt in self.RollTables:
-                n = rt._roll()
-                print(rt._roll_value(n)) 
+                #print(
+               
 
+                rt._GUI_fragment() 
+                #Stack all tables together, add a search bar that searches name and tags of the CRollTable, 
+                # only tables matching the search -non case sensitive- will be displayed others hidden.  
     
     #search rolltable names
 
@@ -125,22 +129,105 @@ class CRollTable:
     def _roll(self):
         #genrate a number from 0 to len(self.entries)
         max = len(self.entries) -1
-        #print(self.entries[max-1])  
         return random.randint(0, max)
 
     def _roll_value(self, n):
         return self._unpack_list(self.entries[n]['results'])
+    
+    def _GUI_fragment(self):
+        #button to roll then display the roll_value
+        st.markdown(f"## {self.name}") 
+        if st.button("🎲 Roll"):
+            
+            st.write(self._roll_value(self._roll())) 
 
-    #_html_fragment
+        #Hide the table untill a button is hit
 
-
-      
+    
 
 def main():
     fp = Path("./tables/rollTableLibrary.json")
     tl = CTableLibrary(fp) 
 
-    tl.render(render_type = 'html') 
+    tl.render(render_type = 'GUI') 
 
 if __name__ == "__main__":
     main()
+
+
+#Junk
+
+    '''def _html_fragment(self): 
+
+        template = Template("""
+        <div class="roll-table"
+            data-table-id="{{ table_id }}">
+
+            <h2>{{ table_name }}</h2>
+
+            {{ roll_button }}
+
+            {{ roll_script }}
+
+            {{ roll_display }} 
+
+        </div>
+        """)
+
+        return template.render(
+            table_id=self.id,
+            table_name=self.name,
+            roll_button=self._html_roll_button(),
+            roll_script=self._html_roll_script(),
+            roll_display=self._html_display_roll()
+        )
+
+    def _html_roll_button(self): 
+        template = Template("""
+            <button
+                class="roll-btn"
+                data-table-id="{{ table_id }}">
+                🎲 Roll
+            </button>
+            """) 
+
+        return template.render(table_id=self.id)
+
+    def _html_display_roll(self): 
+        template = Template("""
+        <div
+            class="roll-result"
+            id="result-{{ table_id }}">
+
+            No roll yet     
+
+        </div>
+        """) #
+
+        return template.render(
+            table_id=self.id
+        )
+
+    def _html_roll_script(self):
+        template = Template("""
+        <script>
+        function roll_{{ table_id_safe }}()
+        {
+            const maxRoll = {{ max_roll }};
+            const roll = Math.floor(Math.random() * maxRoll);
+
+            console.log(
+                "Table:",
+                "{{ table_name }}",
+                "Roll:",
+                roll
+            );
+        }
+        </script>
+        """)
+
+        return template.render(
+            table_id_safe=self.id.replace("-", "_"),
+            table_name=self.name,
+            max_roll=len(self.entries)-1
+        )'''
