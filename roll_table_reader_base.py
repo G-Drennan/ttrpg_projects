@@ -3,7 +3,6 @@ import os
 import json
 from pathlib import Path 
 import random
-#from markdownify import markdownify #Converts HTML → Markdown.
 from mdutils.mdutils import MdUtils 
 import streamlit as st   #python -m streamlit run roll_table_reader_base.py
 
@@ -171,8 +170,9 @@ class CRollTable:
     def _GUI_fragment(self):
         #button to roll then display the roll_value
         st.markdown(f"## {self.name}")
-        st.markdown(f"*{self.tags}*")  
-        if st.button("🎲 Roll", key=self.id+'1'):
+        tab = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+        st.markdown(f"*Tags: {self.tags}{tab}-{tab}Dice Type: {self.diceType}*")   
+        if st.button("🎲 Roll", key=self.id+'1'): 
             
             st.write(self._roll_value(self._roll())) 
 
