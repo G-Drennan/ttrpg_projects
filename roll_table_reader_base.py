@@ -61,16 +61,30 @@ class CTableLibrary: #contains an arr of CRollTables
 
         if render_type == 'md': 
             for rt in self.RollTables:
-                    rt.markdown_render()
+                    rt.markdown_render() 
         if render_type == 'GUI':
             #st.markdown("# ROLL TABLE LIBRARY") 
-            for rt in self.RollTables:
-  
+            search_text = st.text_input(label='Search', type='search') 
+            RollTables = self._matches_search(search_text)  
+            self.display_tables(RollTables)
 
-                rt._GUI_fragment() 
                 #Stack all tables together, add a search bar that searches name and tags of the CRollTable, 
                 # only tables matching the search -non case sensitive- will be displayed others hidden.  
     
+    def display_tables(self, RollTables: list):
+        for rt in RollTables:
+                        rt._GUI_fragment() 
+    
+    def _matches_search(self, search: str):
+        #search = search.lower() 
+        filtered_RollTables = []
+        for rt in self.RollTables:  
+            if rt.matches_txt(txt = search):  
+                filtered_RollTables.append(rt)
+        return filtered_RollTables
+
+
+
     #search rolltable names
 
 class CRollTable:
@@ -86,6 +100,22 @@ class CRollTable:
         self.rollExpression = rollExpression
         self.folderId = folderId
         self.created_at = created_at
+
+
+    def matches_txt(self, txt: str):
+        txt = txt.lower()
+        if txt in self.name.lower(): 
+            return True
+        if self.tags is not None: 
+            for tag in self.tags:  
+                if txt in tag.lower():
+                    return True 
+        return False
+
+    def get_name(self): #str
+        return self.name
+    def get_tags(self): #list
+        return self.tags 
 
     def markdown_render(self, create_file=True, output_txt=False):
         md = MdUtils(file_name=self.name) 
@@ -140,7 +170,8 @@ class CRollTable:
     
     def _GUI_fragment(self):
         #button to roll then display the roll_value
-        st.markdown(f"## {self.name}") 
+        st.markdown(f"## {self.name}")
+        st.markdown(f"*{self.tags}*")  
         if st.button("🎲 Roll", key=self.id+'1'):
             
             st.write(self._roll_value(self._roll())) 

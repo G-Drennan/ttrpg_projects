@@ -1,8 +1,8 @@
 
 
-#Junk
+#Junk 
 
-    '''def _html_fragment(self): 
+'''def _html_fragment(self): 
 
         template = Template("""
         <div class="roll-table"
