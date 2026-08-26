@@ -2,6 +2,10 @@
 
 #Junk 
 
+#Reason for removal: 
+    #   HMLT knowlegde was required 
+    #   my python functions and data types couldn't interact intuitively. 
+    #   The GUI needed to interact with python not be created by python.   
 '''def _html_fragment(self): 
 
         template = Template("""

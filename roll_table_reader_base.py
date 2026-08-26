@@ -4,10 +4,10 @@ import json
 from pathlib import Path 
 import random
 from mdutils.mdutils import MdUtils 
-import streamlit as st   #python -m streamlit run roll_table_reader_base.py
+import streamlit as st      #python -m streamlit run roll_table_reader_base.py
 
 
-class CTableLibrary: #contains an list of CRollTables
+class CTableLibrary:    #contains an list of CRollTables 
     def __init__(self, fp: Path):
         self.table_dict = self._open_dict(fp) 
         self.RollTables = []
@@ -23,8 +23,7 @@ class CTableLibrary: #contains an list of CRollTables
                 #print(f"File {fp} doesn't exist. Giving empty dict")   
                 return {} 
             
-    def _Rolltable_Loader(self):
-        #load the tables from self.table_dict one at a time creating a list of CRolltable that holds each of the features of the dict
+    def _Rolltable_Loader(self):    #load the tables from self.table_dict one at a time creating a list of CRolltable 
         #first check the dict is a "type": "rollTableLibrary"
         d = self.table_dict
         if d['type'] == 'rollTableLibrary': 
@@ -34,8 +33,8 @@ class CTableLibrary: #contains an list of CRollTables
         return self.RollTables 
 
     def _proccess_RolltableLibrary(self):
-        list = self.table_dict['tables'] #list of dicts
-        for d in list:
+        mlist = self.table_dict['tables'] #list of dicts
+        for d in mlist:
             rt = self._makeRollTable(d)
             self.RollTables.append(rt) 
 
@@ -56,37 +55,33 @@ class CTableLibrary: #contains an list of CRollTables
 
         return CRollTable(name, columns, entries, table_id, description, tags, diceType, rangeMode, rollExpression, folderId, created_at)
 
-    def render(self,render_type: str):
+    def render(self,render_type: str):  #How the tables are displayed. 
 
         if render_type == 'md': 
             for rt in self.RollTables:
                     rt.markdown_render() 
-        if render_type == 'GUI':
-            #st.markdown("# ROLL TABLE LIBRARY") 
+        if render_type == 'GUI':    #Stack all tables together in st, add a search bar that searches name and tags of the CRollTable
+            st.markdown("# ROLL TABLE LIBRARY") 
+
+             
             search_text = st.text_input(label='Search', type='search') 
             RollTables = self._matches_search(search_text)  
-            self.display_tables(RollTables)
-
-                #Stack all tables together, add a search bar that searches name and tags of the CRollTable, 
-                # only tables matching the search -non case sensitive- will be displayed others hidden.  
+            self.display_tables(RollTables)        
     
-    def display_tables(self, RollTables: list):
-        for rt in RollTables:
+    def display_tables(self, RollTables: list): #displayes given tables, enalbes control of what tables are displayed.
+        for rt in RollTables:  
                         rt._GUI_fragment() 
     
     def _matches_search(self, search: str):
-        #search = search.lower() 
         filtered_RollTables = []
         for rt in self.RollTables:  
-            if rt.matches_txt(txt = search):  
+            if rt.matches_txt(txt = search):    # only tables matching the txt -non case sensitive- will be displayed others hidden. 
                 filtered_RollTables.append(rt)
         return filtered_RollTables
 
+#~
 
-
-    #search rolltable names
-
-class CRollTable:
+class CRollTable:   #Holds data related to the table
     def __init__(self,  name, columns, entries, id, description, tags, diceType, rangeMode, rollExpression, folderId, created_at):
         self.name = name
         self.columns = columns
@@ -94,14 +89,13 @@ class CRollTable:
         self.id = id
         self.description=description
         self.tags = tags
-        self.diceType = diceType
-        self.rangeMode = rangeMode
-        self.rollExpression = rollExpression
+        self.diceType = diceType    #The dice rolled
+        self.rangeMode = rangeMode #Table has entires with a range e.g 1-3, 4-6, 8-10
+        self.rollExpression = rollExpression    #What is displayed
         self.folderId = folderId
         self.created_at = created_at
 
-
-    def matches_txt(self, txt: str):
+    def matches_txt(self, txt: str):    # only tables matching the txt -non case sensitive- will return true.
         txt = txt.lower()
         if txt in self.name.lower(): 
             return True
@@ -111,12 +105,7 @@ class CRollTable:
                     return True 
         return False
 
-    def get_name(self): #str
-        return self.name
-    def get_tags(self): #list
-        return self.tags 
-
-    def markdown_render(self, create_file=True, output_txt=False):
+    def markdown_render(self, create_file=True, output_txt=False):  #Either create a file or only write the table in md
         md = MdUtils(file_name=self.name) 
         t_header = not output_txt
         if t_header:
@@ -139,7 +128,7 @@ class CRollTable:
         if create_file:
             md.create_md_file()
 
-    def _extract_enties(self):
+    def _extract_enties(self):  #Puts enteries into a list for md
         row_entries = []
         for d in self.entries:
             if d['minRoll'] is not d['maxRoll']:
@@ -153,7 +142,7 @@ class CRollTable:
             row_entries.append(result) 
         return row_entries 
 
-    def _unpack_list(self, mlist):
+    def _unpack_list(self, mlist):  #coverts [a,b,c] to a,b,c or [a] to a 
         mstring = ""
         tog = len(mlist) > 0 
         count = 0
@@ -166,19 +155,18 @@ class CRollTable:
                  
         return mstring
 
-    def _roll(self):
-        #genrate a number from 0 to len(self.entries)
+    def _roll(self):    #genrate a number from 0 to len(self.entries)
         max = len(self.entries) -1
         return random.randint(0, max)
 
     def _roll_value(self, n):
         return self._unpack_list(self.entries[n]['results'])
     
-    def _GUI_fragment(self): 
+    def _GUI_fragment(self):  
 
         st.markdown(f"## {self.name}")
         tab = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-        st.markdown(f"*Tags: {self._unpack_list(self.tags)}{tab}-{tab}Dice Type: {self.diceType}*") 
+        st.markdown(f"*Tags: {self._unpack_list(self.tags)}{tab}-{tab}Dice Type: {self.rollExpression}*") 
 
         if st.button("🎲 Roll", key=self.id+'1'): 
             
@@ -188,7 +176,7 @@ class CRollTable:
                     text = self.markdown_render(create_file = False, output_txt = True)
                     st.markdown(text)  
 
-        if st.button("Print md", key=self.id+'3'): 
+        if st.button("Print md", key=self.id+'3'):  
              self.markdown_render() 
 
     
