@@ -8,7 +8,7 @@ import streamlit as st      #python -m streamlit run roll_table_reader_base.py
 
 
 class CTableLibrary:    #contains an list of CRollTables 
-    def __init__(self, fp: Path):
+    def __init__(self, fp= Path( "./tables/rollTableLibrary.json")):
         self.table_dict = self._open_dict(fp) 
         self.RollTables = []
         self._Rolltable_Loader() 
@@ -182,8 +182,7 @@ class CRollTable:   #Holds data related to the table
     
 
 def main():
-    fp = Path("./tables/rollTableLibrary.json")
-    tl = CTableLibrary(fp) 
+    tl = CTableLibrary()  
 
     tl.render(render_type = 'GUI') 
 

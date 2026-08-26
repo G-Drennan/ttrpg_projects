@@ -3,14 +3,61 @@ import json
 from pathlib import Path 
 import uuid 
 import time
+import pandas as pd
 
 class CRollTableImporter:
-    def __init__(self):
-        pass
+    def __init__(self, list_fp: Path, fp = Path("./tables/rollTableLibrary.json")):
+            self.fp = fp
+            self.table_library_dict = self._open_dict() 
+            self.trf = CTableReaderFactory.create(list_fp) #to get the lsit and name
+ 
+            temp_list =  self._extract_mlist()
+            temp_name = self._extract_name() 
+            self.rtf = CRollTableFactory(mlist=temp_list, name=temp_name)
 
-    #Reads source data
+            #main flow 
+            self._open_dict()
+            self._add_table()
+            self._save() 
 
-    #Add data into json
+    def _extract_mlist(self):
+         #call tr
+         temp_list = self.trf.get_mlist() 
+         return temp_list
+    
+    def _extract_name(self):  
+             #call tr
+             temp_name = self.trf.get_file_name()
+             return temp_name 
+
+    def _open_dict(self): #Reads source data
+                
+                if self.fp.is_file():  
+                    with open(self.fp, 'r') as f: 
+                        loaded_dict = json.load(f) 
+        
+                    return loaded_dict  
+                else:
+                    #print(f"File {fp} doesn't exist. Giving empty dict")   
+                    return  self._create_empty_library()
+
+    def _create_empty_library(self):
+        return {
+                "version": 1,
+                "type": "rollTableLibrary",
+                "tables": [],
+                "folders": []
+            }
+         
+    def _add_table(self): 
+        self.table_library_dict["tables"].append(self.rtf.get_table()) 
+
+    def _save(self):  #Add data into json  
+            
+            with open(self.fp, 'w') as f: 
+                json.dump(self.table_library_dict, f, indent=4) 
+            return self.fp
+
 
 class CRollTableFactory:        #converts given list into the required json format
     def __init__(self, mlist, name):
@@ -70,11 +117,76 @@ class CRollTableFactory:        #converts given list into the required json form
 
 
 
-class CTableReader:
+class CTableReaderFactory:
     def __init__(self):
+        pass 
+
+    def create(self, fp: Path): 
+        tr = CTableReader(fp)
+        fp_end = tr.get_file_name() 
+        if fp_end == 'csv':
+            return CCsvTableReader(fp)
+        elif fp_end == 'txt':
+            return CCsvTableReader(fp)
+
+
+class CTableReader: 
+    def __init__(self, fp: Path):
+        self.fp = fp
+        self.input = None
+
+    def get_mlist(self): 
+        return self._parse_file() 
+
+    def _parse_file(self): #example return value, will be over written
+        return ['a', 'b', 'c', 'd']
+
+    def get_file_name(self): 
+         #file name file off the path and file type
+         s = str(self.fp)
+         l = s.split('.')
+         return l[-1] 
+    
+    def _parse_file(self):
+         pass 
+
+    def _read(self): #default cna be overwritten
+            f1 = open(self.fp, "r", encoding="utf-8")
+            text = f1.read()
+            f1.close()  
+            self.input =  text
+
+class CCsvTableReader(CTableReader):
+
+    def _parse_file(self):
+
+        ori = self._detect_orientation()
+
+        if ori == 'r':
+            return self._parse_row_based()
+        
+        elif ori == 'c':
+            return self._parse_col_based() 
+
+    def _detect_orientation(self):
+        pass 
+
+    def _parse_row_based(self):
+        pass
+    
+    def _parse_col_based(self):
         pass
 
-    #input csv or txt use inheritance from table reader
+    def _read(self):  
+        self.input =  pd.read_csv(self.fp) 
+            
+
+class CTxtTableReader(CTableReader): 
+
+    def _parse_file(self):
+             pass
+
+#input csv or txt use inheritance from table reader
     """
     a
     b
@@ -99,12 +211,12 @@ class CTableReader:
 
 
 
-def main():
-    lsit = ['a', 'b', 'c', 'd'] 
-    name = "Letters" 
-    print(f"{name}: {lsit}") 
-    rtf = CRollTableFactory(mlist=lsit, name = name) 
-    print(rtf.get_table())  
+def main(): #TODO: args to the program should be a lsit of str for csv and txt to convert to tables 
+    fp = Path("./Temperature.csv") 
+    tr = CTableReader(fp)
+    print(tr.get_file_name()) 
+    #CRollTableImporter(list_fp=fp)  
+
 
 if __name__ == "__main__":
     main()
