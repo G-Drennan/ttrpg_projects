@@ -7,24 +7,24 @@ from mdutils.mdutils import MdUtils
 import streamlit as st   #python -m streamlit run roll_table_reader_base.py
 
 
-class CTableLibrary: #contains an arr of CRollTables
+class CTableLibrary: #contains an list of CRollTables
     def __init__(self, fp: Path):
         self.table_dict = self._open_dict(fp) 
         self.RollTables = []
         self._Rolltable_Loader() 
 
-    def _open_dict(self, fp: Path):  #pf is relative to the py ./tables/rollTableLibrary.json
+    def _open_dict(self, fp: Path):
             if fp.is_file():  
                 with open(fp, 'r') as f: 
                     loaded_dict = json.load(f) 
     
                 return loaded_dict  
             else:
-                    #print(f"File {fp} doesn't exist. Giving empty dict")   
-                return {}
+                #print(f"File {fp} doesn't exist. Giving empty dict")   
+                return {} 
             
     def _Rolltable_Loader(self):
-        #load the tables from self.table_dict one at a time creating a CRolltable that holds each of the features of the dict
+        #load the tables from self.table_dict one at a time creating a list of CRolltable that holds each of the features of the dict
         #first check the dict is a "type": "rollTableLibrary"
         d = self.table_dict
         if d['type'] == 'rollTableLibrary': 
@@ -155,8 +155,15 @@ class CRollTable:
 
     def _unpack_list(self, mlist):
         mstring = ""
+        tog = len(mlist) > 0 
+        count = 0
         for e in mlist:
-            mstring += e
+            if count == len(mlist)-1: 
+                mstring += e
+            else:
+                 mstring += e + ", "
+            count +=1 
+                 
         return mstring
 
     def _roll(self):
@@ -167,11 +174,12 @@ class CRollTable:
     def _roll_value(self, n):
         return self._unpack_list(self.entries[n]['results'])
     
-    def _GUI_fragment(self):
-        #button to roll then display the roll_value
+    def _GUI_fragment(self): 
+
         st.markdown(f"## {self.name}")
         tab = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-        st.markdown(f"*Tags: {self.tags}{tab}-{tab}Dice Type: {self.diceType}*")   
+        st.markdown(f"*Tags: {self._unpack_list(self.tags)}{tab}-{tab}Dice Type: {self.diceType}*") 
+
         if st.button("🎲 Roll", key=self.id+'1'): 
             
             st.write(self._roll_value(self._roll())) 
@@ -179,10 +187,9 @@ class CRollTable:
         if st.button("Display Table", key=self.id+'2'): 
                     text = self.markdown_render(create_file = False, output_txt = True)
                     st.markdown(text)  
+
         if st.button("Print md", key=self.id+'3'): 
              self.markdown_render() 
-
-        #Hide the table untill a button is hit
 
     
 
