@@ -9,25 +9,25 @@ class CRollTableImporter:
     def __init__(self, list_fp: Path, fp = Path("./tables/rollTableLibrary.json")):
             self.fp = fp
             self.table_library_dict = self._open_dict() 
-            self.trf = CTableReaderFactory.create(list_fp) #to get the lsit and name
+            self.tr = CTableReaderFactory.create(list_fp) #to get the lsit and name
  
-            temp_list =  self._extract_mlist()
+            '''temp_list =  self._extract_mlist()
             temp_name = self._extract_name() 
-            self.rtf = CRollTableFactory(mlist=temp_list, name=temp_name)
+            self.rt = CRollTableFactory(mlist=temp_list, name=temp_name)'''
 
-            #main flow 
+            #main flow  
             self._open_dict()
             self._add_table()
             self._save() 
 
     def _extract_mlist(self):
          #call tr
-         temp_list = self.trf.get_mlist() 
+         temp_list = self.tr.get_mlist() 
          return temp_list
     
     def _extract_name(self):  
              #call tr
-             temp_name = self.trf.get_file_name()
+             temp_name = self.tr.get_file_name()
              return temp_name 
 
     def _open_dict(self): #Reads source data
@@ -136,7 +136,7 @@ class CTableReader:
         self.input = None
 
     def get_mlist(self): 
-        return self._parse_file() 
+        return self._parse_file()  
 
     def _parse_file(self): #example return value, will be over written
         return ['a', 'b', 'c', 'd']
@@ -169,16 +169,23 @@ class CCsvTableReader(CTableReader):
             return self._parse_col_based() 
 
     def _detect_orientation(self):
-        pass 
+        self._read_csv() 
+        self._read()
+        l = len(self.input.split(',')) 
+
+        if l > 1:
+            return 'c' 
+        else:
+             return 'r' 
 
     def _parse_row_based(self):
-        pass
+        return self.df.iloc[:,0] 
     
     def _parse_col_based(self):
-        pass
+        return self.df.iloc[0] #grab the first row
 
-    def _read(self):  
-        self.input =  pd.read_csv(self.fp) 
+    def _read_csv(self):  
+        self.df =  pd.read_csv(self.fp) 
             
 
 class CTxtTableReader(CTableReader): 
@@ -213,8 +220,8 @@ class CTxtTableReader(CTableReader):
 
 def main(): #TODO: args to the program should be a lsit of str for csv and txt to convert to tables 
     fp = Path("./Temperature.csv") 
-    tr = CTableReader(fp)
-    print(tr.get_file_name()) 
+    tr = CCsvTableReader(fp) 
+    print(tr.get_mlist()) 
     #CRollTableImporter(list_fp=fp)  
 
 
