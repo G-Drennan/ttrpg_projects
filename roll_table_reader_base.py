@@ -179,6 +179,9 @@ class CRollTable:
         if st.button("Display Table", key=self.id+'2'): 
                     text = self.markdown_render(create_file = False, output_txt = True)
                     st.markdown(text)  
+        if st.button("Print md", key=self.id+'3'): 
+             self.markdown_render() 
+
         #Hide the table untill a button is hit
 
     
