@@ -5,15 +5,26 @@ from pathlib import Path
 import random
 from mdutils.mdutils import MdUtils 
 import streamlit as st      #python -m streamlit run roll_table_reader_base.py
+from roll_table_generator import CRollTableInterface
+
+class CGUI_streamlit:
+    def __init__(self):
+        self.tl = CTableLibrary()
+        self.main_page()
+
+    def main_page(self):
+        st.markdown("# ROLL TABLE LIBRARY")
+        self.tl.gui_main() #tables and search bar
 
 
 class CTableLibrary:    #contains an list of CRollTables 
     def __init__(self, fp= Path( "./tables/rollTableLibrary.json")):
-        self.table_dict = self._open_dict(fp) 
+        self.rti = CRollTableInterface(fp=fp)  
+        self.table_dict = self._open_roll_table_library(fp) 
         self.RollTables = []
         self._Rolltable_Loader() 
 
-    def _open_dict(self, fp: Path):
+    def _open_roll_table_library(self, fp: Path):
             if fp.is_file():  
                 with open(fp, 'r') as f: 
                     loaded_dict = json.load(f) 
@@ -61,22 +72,26 @@ class CTableLibrary:    #contains an list of CRollTables
             for rt in self.RollTables:
                     rt.markdown_render() 
         if render_type == 'GUI':    #Stack all tables together in st, add a search bar that searches name and tags of the CRollTable
-            st.markdown("# ROLL TABLE LIBRARY") 
+            self.gui_main()
 
-             
-            search_text = st.text_input(label='Search', type='search') 
-            RollTables = self._matches_search(search_text)  
-            self.display_tables(RollTables)        
+    def gui_main(self):
+       
+        search_text = st.text_input(label='Search', type='search') 
+        RollTables = self._matches_search(search_text)  
+        self.display_tables(RollTables)        
     
     def display_tables(self, RollTables: list): #displayes given tables, enalbes control of what tables are displayed.
         for rt in RollTables:  
-                        rt._GUI_fragment() 
+            rt._GUI_fragment() 
+            if st.button("Delete Table", key=rt.get_id()+'4'):
+                self.rti.remove_table_from_library(self.id)
     
     def _matches_search(self, search: str):
         filtered_RollTables = []
         for rt in self.RollTables:  
             if rt.matches_txt(txt = search):    # only tables matching the txt -non case sensitive- will be displayed others hidden. 
                 filtered_RollTables.append(rt)
+                
         return filtered_RollTables
 
 #~
@@ -94,6 +109,9 @@ class CRollTable:   #Holds data related to the table
         self.rollExpression = rollExpression    #What is displayed
         self.folderId = folderId
         self.created_at = created_at
+
+    def get_id(self):
+        return self.id
 
     def matches_txt(self, txt: str):    # only tables matching the txt -non case sensitive- will return true.
         txt = txt.lower()
@@ -178,13 +196,12 @@ class CRollTable:   #Holds data related to the table
 
         if st.button("Print md", key=self.id+'3'):  
              self.markdown_render() 
+          
 
     
 
 def main():
-    tl = CTableLibrary()  
-
-    tl.render(render_type = 'GUI') 
+    CGUI_streamlit() 
 
 if __name__ == "__main__":
     main()
