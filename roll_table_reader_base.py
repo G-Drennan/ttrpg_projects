@@ -156,6 +156,23 @@ class CRollTable:   #Holds data related to the table
         self.folderId = folderId
         self.created_at = created_at
 
+        self.rti = CRollTableInterface()
+
+    def refresh_me(self):
+        self.me = { 
+            "id": self.id,
+            "name": self.name,
+            "description": self.description,
+            "tags": self.tags,
+            "diceType": self.diceType,
+            "rangeMode": self.rangeMode,
+            "rollExpression": self.rollExpression,
+            "columns": self.columns,
+            "entries": self.entries,
+            "folderId": self.folderId,
+            "created_at": self.created_at
+        }
+
     def get_tags(self):
         return self.tags
 
@@ -164,7 +181,8 @@ class CRollTable:   #Holds data related to the table
         self._update_json()
 
     def _update_json(self):
-        pass 
+        self.refresh_me()
+        self.rti.update_json(self.me)
 
 
     def get_id(self):

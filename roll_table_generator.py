@@ -11,6 +11,19 @@ class CRollTableInterface:
             self.table_library_dict = self.open_table_library() 
 
     #add a method to delate tables
+    def update_json(self, id: str, updated_table: dict):
+        #replace a table with its new version
+        tables = [] 
+        updated = False
+        tables = self.table_library_dict["tables"] 
+        for t in tables:
+            if t['id'] == id:
+                tables.append(updated_table)
+                updated = True
+        self.table_library_dict["tables"] = tables
+        self.save_table_to_library() 
+        return updated
+
     def remove_table_from_library(self, id: str): #e.g             "id": "2185e775-cde0-4565-936c-d5dae2fe25a4", 
         removed = False
         tables = [] 
