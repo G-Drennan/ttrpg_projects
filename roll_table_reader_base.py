@@ -7,6 +7,11 @@ from mdutils.mdutils import MdUtils
 import streamlit as st      #python -m streamlit run roll_table_reader_base.py
 from roll_table_generator import CRollTableInterface
 
+#TODO: add ability to modifly tags in the gui, modify at the CTableLibrary level
+#TODO: move st out of CTableLibrary and CRollTable 
+#TODO: add error handeling 
+#TODO: Is CTableLibrary a Repository? 
+
 class CGUI_streamlit:
     def __init__(self):
         self.tl = CTableLibrary()
@@ -16,17 +21,18 @@ class CGUI_streamlit:
         st.markdown("# ROLL TABLE LIBRARY")
         self.tl.gui_main() #tables and search bar
 
+#~ 
 
 class CTableLibrary:    #contains an list of CRollTables 
     def __init__(self, fp= Path( "./tables/rollTableLibrary.json")):
         self.rti = CRollTableInterface(fp=fp)  
-        self.table_dict = self._open_roll_table_library(fp) 
-        self.RollTables = []
+        self.fp = fp
+        self.RollTables = [] 
         self._Rolltable_Loader() 
 
-    def _open_roll_table_library(self, fp: Path):
-            if fp.is_file():  
-                with open(fp, 'r') as f: 
+    def _open_roll_table_library(self): 
+            if self.fp.is_file():  
+                with open(self.fp, 'r') as f: 
                     loaded_dict = json.load(f) 
     
                 return loaded_dict  
@@ -36,15 +42,15 @@ class CTableLibrary:    #contains an list of CRollTables
             
     def _Rolltable_Loader(self):    #load the tables from self.table_dict one at a time creating a list of CRolltable 
         #first check the dict is a "type": "rollTableLibrary"
-        d = self.table_dict
+        d = self._open_roll_table_library() 
         if d['type'] == 'rollTableLibrary': 
-            self._proccess_RolltableLibrary()
+            self._proccess_RolltableLibrary(d)
 
     def get_RollTables(self):
         return self.RollTables 
 
-    def _proccess_RolltableLibrary(self):
-        mlist = self.table_dict['tables'] #list of dicts
+    def _proccess_RolltableLibrary(self, d: dict): 
+        mlist = d['tables'] #list of dicts
         for d in mlist:
             rt = self._makeRollTable(d)
             self.RollTables.append(rt) 
@@ -77,15 +83,45 @@ class CTableLibrary:    #contains an list of CRollTables
     def gui_main(self):
        
         search_text = st.text_input(label='Search', type='search') 
-        RollTables = self._matches_search(search_text)  
-        self.display_tables(RollTables)        
+        new_table_txt = st.text_input(label = 'Table entry')
+        if st.button("Create New Table", key='4'):
+            self._create_new_table(txt = new_table_txt) 
+            st.rerun() 
+
+        RollTables_filtered = self._matches_search(search_text)  
+        self._display_tables(RollTables_filtered)        
+
+    def _create_new_table(self, txt: str): #debug 
+
+        def _is_text_fp(): 
+            #print(Path(txt).is_file()) 
+            #print(Path(txt).suffix)  
+            if Path(txt).suffix == '.csv' or Path(txt).suffix =='.txt':
+                return Path(txt).is_file()
+            else:
+                return False
+        if _is_text_fp():
+            fp = Path(txt) 
+            self.rti.create_from_file(list_fp=fp) 
+        else:
+            self.rti.create_from_text_entry(text = txt)#'''
     
-    def display_tables(self, RollTables: list): #displayes given tables, enalbes control of what tables are displayed.
-        for rt in RollTables:  
+    def _display_tables(self, RollTables_filtered: list): #displayes given tables, enalbes control of what tables are displayed.
+        for rt in RollTables_filtered:  
             rt._GUI_fragment() 
             if st.button("Delete Table", key=rt.get_id()+'4'):
-                self.rti.remove_table_from_library(self.id)
-    
+                table_id = rt.get_id()
+                removed, _ = self.rti.remove_table_from_library(table_id)
+                if removed:
+                    RollTables_filtered = self._remove_table(table_id, RollTables_filtered) 
+                    st.rerun() 
+
+    def _remove_table(self, table_id:str, RollTables_filtered:list):
+        for rt in RollTables_filtered: 
+            if rt.get_id == table_id:
+                self.RollTables.remove(rt) 
+        return self.RollTables 
+                  
     def _matches_search(self, search: str):
         filtered_RollTables = []
         for rt in self.RollTables:  
@@ -196,12 +232,14 @@ class CRollTable:   #Holds data related to the table
 
         if st.button("Print md", key=self.id+'3'):  
              self.markdown_render() 
-          
 
-    
+          
 
 def main():
     CGUI_streamlit() 
+    '''tl = CTableLibrary() 
+    in1 = './Temperature.txt'
+    tl._create_new_table(txt = in1) '''
 
 if __name__ == "__main__":
     main()

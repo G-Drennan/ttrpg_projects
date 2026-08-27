@@ -15,14 +15,16 @@ class CRollTableInterface:
         removed = False
         tables = [] 
         tables = self.table_library_dict["tables"] 
+        removed_section = None
         for t in tables:
             if t['id'] == id:
                 #print(tables) 
                 tables.remove(t) 
                 removed = True
+                removed_section = t
         self.table_library_dict["tables"] = tables
         self.save_table_to_library() 
-        return removed
+        return removed, removed_section
              
     def create_from_file(self, list_fp: Path):
         trf = CTableReaderFactory() 
