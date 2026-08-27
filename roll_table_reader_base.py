@@ -182,7 +182,7 @@ class CRollTable:   #Holds data related to the table
 
     def _update_json(self):
         self.refresh_me()
-        self.rti.update_json(self.me)
+        self.rti.update_json(id = self.id, updated_table=self.me) 
 
 
     def get_id(self):

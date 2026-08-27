@@ -16,10 +16,12 @@ class CRollTableInterface:
         tables = [] 
         updated = False
         tables = self.table_library_dict["tables"] 
-        for t in tables:
+        for i,t in enumerate(tables):
             if t['id'] == id:
-                tables.append(updated_table)
+                #tables.append(updated_table)
+                tables[i] = updated_table
                 updated = True
+                break
         self.table_library_dict["tables"] = tables
         self.save_table_to_library() 
         return updated

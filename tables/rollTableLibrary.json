@@ -6,7 +6,10 @@
             "id": "8877539c-924a-4520-ac43-7d52fe0ce67b",
             "name": "Name Generator (CHICKEN EDITION)",
             "description": "",
-            "tags": [],
+            "tags": [
+                "NPCs",
+                " names"
+            ],
             "diceType": "d20",
             "rangeMode": false,
             "rollExpression": "d50",
