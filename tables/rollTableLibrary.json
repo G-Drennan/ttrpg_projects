@@ -422,104 +422,6 @@
             "created_at": 1787230003427
         },
         {
-            "id": "9e750e8f-7f8f-4dd7-9efb-5100ef5990fd",
-            "name": "Baddie Bedazzlement Table",
-            "description": "Extra flavor to tack onto a group of minions or low level monsters to make them stand out. Pick your baddies (skeletons, goblins, fairies, etc.), and roll for pizzaz, using the elements to spice up attacks (pi\u00c3\u00b1a coladas as molotov cocktails for tourist kobolds, glitter bombs for pirate ravers, etc.) ",
-            "tags": [],
-            "diceType": "d20",
-            "rangeMode": false,
-            "columns": [
-                {
-                    "id": "dec91688-5f9a-4b66-8630-6e368989aaf1",
-                    "name": "d10"
-                }
-            ],
-            "entries": [
-                {
-                    "id": "6dae13ab-76b4-4ad3-8de8-bd48e7fe4e4b",
-                    "minRoll": 1,
-                    "maxRoll": 1,
-                    "results": [
-                        "Vigilante team: superhero costumes, masks and capes, underpants over leggings, corny one liners, doing poses, over exaggerated grunts"
-                    ]
-                },
-                {
-                    "id": "076dbef0-aa16-45f1-b0ed-c0196a18e79e",
-                    "minRoll": 2,
-                    "maxRoll": 2,
-                    "results": [
-                        "Tourist tour: Hawaiian shirt, pi\u00c3\u00b1a coladas as molotov cocktails, flip flops, sun hats, sandals, blinding with camera flash, whacking with beach umbrella"
-                    ]
-                },
-                {
-                    "id": "62b4d7f7-d064-4b60-8840-bda65497e8f5",
-                    "minRoll": 3,
-                    "maxRoll": 3,
-                    "results": [
-                        "Ravers: glow sticks, mesh shirt, body paint, chunky boots, no sleeves, glitter bombs "
-                    ]
-                },
-                {
-                    "id": "5e1e8e57-962f-42f2-84d1-2e60750482ce",
-                    "minRoll": 4,
-                    "maxRoll": 4,
-                    "results": [
-                        "Cabaret troupe: feathered boas, glitter, sparkly heels, dramatic makeup, choreographed moves, high kicks with fishnets"
-                    ]
-                },
-                {
-                    "id": "f44101bb-3c7d-41b3-a025-1b6b8faf2f9d",
-                    "minRoll": 5,
-                    "maxRoll": 5,
-                    "results": [
-                        "Punk biker gang: spikes, black leather, kneepads, helmets, combat boots, tattoos, nail-covered baseball bats, horses with spiky hair"
-                    ]
-                },
-                {
-                    "id": "5aab927c-6190-4000-a059-0b69f490e779",
-                    "minRoll": 6,
-                    "maxRoll": 6,
-                    "results": [
-                        "Wedding party: bridal dress, suits, flower bouquets, bridesmaids, throwing rice, family drama, champagne bottles"
-                    ]
-                },
-                {
-                    "id": "9a2d167b-068d-433f-a13f-e5b3d30b4849",
-                    "minRoll": 7,
-                    "maxRoll": 7,
-                    "results": [
-                        "Sports team: protection equipment, numbered jerseys, lacrosse sticks as weapons, rallying slogans, cheerleaders, mascot"
-                    ]
-                },
-                {
-                    "id": "9a7fdf2d-d920-4aa1-a64c-0a9d76690fd1",
-                    "minRoll": 8,
-                    "maxRoll": 8,
-                    "results": [
-                        "School trip: little uniforms, backpacks, overwhelmed teacher, lunch boxes, rulers as weapons"
-                    ]
-                },
-                {
-                    "id": "53dc7266-e9da-438b-ae53-6940c3ec3a6c",
-                    "minRoll": 9,
-                    "maxRoll": 9,
-                    "results": [
-                        "Rap collective: gold chains, baggy clothing, sunglasses, jeweled teeth, insulting burns"
-                    ]
-                },
-                {
-                    "id": "b8fea4a9-4aad-4ad9-a007-6dd1ac640cb5",
-                    "minRoll": 10,
-                    "maxRoll": 10,
-                    "results": [
-                        "Road tripping hippies: flower crowns, colorful clothes, harem pants, long hair, ukuleles as weapons, seed bombing "
-                    ]
-                }
-            ],
-            "folderId": null,
-            "created_at": 1787126323387
-        },
-        {
             "id": "cc58e89c-b426-4fc2-89f8-24950fd3cbc5",
             "name": "Temperature",
             "description": "",
@@ -604,6 +506,108 @@
             ],
             "folderId": null,
             "created_at": 1787792914678
+        },
+        {
+            "id": "25d6e3a3-2c7a-48b5-a8bb-6f7e316dc8de",
+            "name": "Precipitation",
+            "description": "",
+            "tags": [],
+            "diceType": "d3",
+            "rangeMode": false,
+            "rollExpression": "d3",
+            "columns": [
+                {
+                    "id": "eba97acf-4139-4960-af26-579f6f1cf838",
+                    "name": "d3"
+                }
+            ],
+            "entries": [
+                {
+                    "id": "9ac285bf-e09d-4bc3-bbc1-2d98d95956af",
+                    "minRoll": 1,
+                    "maxRoll": 1,
+                    "results": [
+                        "None"
+                    ]
+                },
+                {
+                    "id": "b619271e-a030-4ff5-ad41-892fc4dc6201",
+                    "minRoll": 2,
+                    "maxRoll": 2,
+                    "results": [
+                        "Light rain or snowfall"
+                    ]
+                },
+                {
+                    "id": "7828a721-f0e8-4887-9d1f-5f9114436084",
+                    "minRoll": 3,
+                    "maxRoll": 3,
+                    "results": [
+                        "Heavy rain or snowfall"
+                    ]
+                }
+            ],
+            "folderId": null,
+            "created_at": 1787794275943
+        },
+        {
+            "id": "9e732792-706c-416e-a9c3-e48d1d670667",
+            "name": "Npc Attitude",
+            "description": "",
+            "tags": [],
+            "diceType": "d5",
+            "rangeMode": false,
+            "rollExpression": "d5",
+            "columns": [
+                {
+                    "id": "130fe57b-ba92-408b-878d-b5fc4126721e",
+                    "name": "d5"
+                }
+            ],
+            "entries": [
+                {
+                    "id": "e7362f67-da52-47ef-9197-a4c1b3be82f3",
+                    "minRoll": 1,
+                    "maxRoll": 1,
+                    "results": [
+                        "Obliging"
+                    ]
+                },
+                {
+                    "id": "54dc6b63-1c65-4506-b55b-d0c0d9ef5113",
+                    "minRoll": 2,
+                    "maxRoll": 2,
+                    "results": [
+                        "Friendly"
+                    ]
+                },
+                {
+                    "id": "03412f3b-85fd-4b15-82d8-299be06b6f8b",
+                    "minRoll": 3,
+                    "maxRoll": 3,
+                    "results": [
+                        "Neutral"
+                    ]
+                },
+                {
+                    "id": "d3a80af3-2713-4a1e-85db-166a16df6d42",
+                    "minRoll": 4,
+                    "maxRoll": 4,
+                    "results": [
+                        "Hostile"
+                    ]
+                },
+                {
+                    "id": "e5c30820-6b2a-4dbb-a2c7-cde60b99956f",
+                    "minRoll": 5,
+                    "maxRoll": 5,
+                    "results": [
+                        "Enemy"
+                    ]
+                }
+            ],
+            "folderId": null,
+            "created_at": 1787795119142
         }
     ],
     "folders": []

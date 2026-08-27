@@ -10,7 +10,7 @@ from roll_table_generator import CRollTableInterface
 #TODO: add ability to modifly tags in the gui, modify at the CTableLibrary level
 #TODO: move st out of CTableLibrary and CRollTable 
 #TODO: add error handeling 
-#TODO: Is CTableLibrary a Repository? 
+#TODO: Is CTableLibrary a Repository?  
 
 class CGUI_streamlit:
     def __init__(self):
@@ -82,10 +82,10 @@ class CTableLibrary:    #contains an list of CRollTables
 
     def gui_main(self):
        
-        search_text = st.text_input(label='Search', type='search') 
-        new_table_txt = st.text_input(label = 'Table entry')
+        search_text = st.text_input(label='Search', type='search', key='1') 
+        new_table_txt = st.text_input(label = 'Table entry', type='default', key='2')
         if st.button("Create New Table", key='4'):
-            self._create_new_table(txt = new_table_txt) 
+            self._create_new_table(txt = new_table_txt)  
             st.rerun() 
 
         RollTables_filtered = self._matches_search(search_text)  
@@ -109,12 +109,22 @@ class CTableLibrary:    #contains an list of CRollTables
     def _display_tables(self, RollTables_filtered: list): #displayes given tables, enalbes control of what tables are displayed.
         for rt in RollTables_filtered:  
             rt._GUI_fragment() 
-            if st.button("Delete Table", key=rt.get_id()+'4'):
+
+            #''' 
+            new_tags = st.text_input(label='Enter New Tags', type='default', key=rt.get_id()+'6') 
+            if st.button("Modify Tags", key=rt.get_id()+'4'):
+                rt.add_tags(new_tags) 
+                #TODO: modify the json at CRollTable level
+                st.rerun() #'''
+
+
+            if st.button("Delete Table", key=rt.get_id()+'5'):
                 table_id = rt.get_id()
                 removed, _ = self.rti.remove_table_from_library(table_id)
                 if removed:
                     RollTables_filtered = self._remove_table(table_id, RollTables_filtered) 
                     st.rerun() 
+            
 
     def _remove_table(self, table_id:str, RollTables_filtered:list):
         for rt in RollTables_filtered: 
@@ -145,6 +155,17 @@ class CRollTable:   #Holds data related to the table
         self.rollExpression = rollExpression    #What is displayed
         self.folderId = folderId
         self.created_at = created_at
+
+    def get_tags(self):
+        return self.tags
+
+    def add_tags(self, new_tags: str):
+        self.tags.extend(new_tags.split(','))
+        self._update_json()
+
+    def _update_json(self):
+        pass 
+
 
     def get_id(self):
         return self.id
@@ -236,10 +257,7 @@ class CRollTable:   #Holds data related to the table
           
 
 def main():
-    CGUI_streamlit() 
-    '''tl = CTableLibrary() 
-    in1 = './Temperature.txt'
-    tl._create_new_table(txt = in1) '''
+    CGUI_streamlit()  
 
 if __name__ == "__main__":
     main()
