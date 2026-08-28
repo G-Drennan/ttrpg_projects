@@ -8,7 +8,8 @@
             "description": "",
             "tags": [
                 "npc",
-                " names"
+                " names",
+                "silly"
             ],
             "diceType": "d20",
             "rangeMode": false,
@@ -558,68 +559,6 @@
             ],
             "folderId": null,
             "created_at": 1787794275943
-        },
-        {
-            "id": "9e732792-706c-416e-a9c3-e48d1d670667",
-            "name": "Npc Attitude",
-            "description": "",
-            "tags": [
-                "npc",
-                " reaction"
-            ],
-            "diceType": "d5",
-            "rangeMode": false,
-            "rollExpression": "d5",
-            "columns": [
-                {
-                    "id": "130fe57b-ba92-408b-878d-b5fc4126721e",
-                    "name": "d5"
-                }
-            ],
-            "entries": [
-                {
-                    "id": "e7362f67-da52-47ef-9197-a4c1b3be82f3",
-                    "minRoll": 1,
-                    "maxRoll": 1,
-                    "results": [
-                        "Obliging"
-                    ]
-                },
-                {
-                    "id": "54dc6b63-1c65-4506-b55b-d0c0d9ef5113",
-                    "minRoll": 2,
-                    "maxRoll": 2,
-                    "results": [
-                        "Friendly"
-                    ]
-                },
-                {
-                    "id": "03412f3b-85fd-4b15-82d8-299be06b6f8b",
-                    "minRoll": 3,
-                    "maxRoll": 3,
-                    "results": [
-                        "Neutral"
-                    ]
-                },
-                {
-                    "id": "d3a80af3-2713-4a1e-85db-166a16df6d42",
-                    "minRoll": 4,
-                    "maxRoll": 4,
-                    "results": [
-                        "Hostile"
-                    ]
-                },
-                {
-                    "id": "e5c30820-6b2a-4dbb-a2c7-cde60b99956f",
-                    "minRoll": 5,
-                    "maxRoll": 5,
-                    "results": [
-                        "Enemy"
-                    ]
-                }
-            ],
-            "folderId": null,
-            "created_at": 1787795119142
         }
     ],
     "folders": []

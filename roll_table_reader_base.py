@@ -7,142 +7,11 @@ from mdutils.mdutils import MdUtils
 import streamlit as st      #python -m streamlit run roll_table_reader_base.py
 from roll_table_generator import CRollTableInterface
 
-#TODO: add ability to modifly tags in the gui, modify at the CTableLibrary level
-#TODO: move st out of CTableLibrary and CRollTable 
-#TODO: add error handeling 
-#TODO: Is CTableLibrary a Repository?  
 
-class CGUI_streamlit:
-    def __init__(self):
-        self.tl = CTableLibrary()
-        self.main_page()
+#TODO: 1 move st out of CTableLibrary and CRollTable 
+#TODO: 2 add error handeling  
+#TODO: 3 Is CTableLibrary a Repository?  
 
-    def main_page(self):
-        st.markdown("# ROLL TABLE LIBRARY")
-        self.tl.gui_main() #tables and search bar
-
-#~ 
-
-class CTableLibrary:    #contains an list of CRollTables 
-    def __init__(self, fp= Path( "./tables/rollTableLibrary.json")):
-        self.rti = CRollTableInterface(fp=fp)  
-        self.fp = fp
-        self.RollTables = [] 
-        self._Rolltable_Loader() 
-
-    def _open_roll_table_library(self): 
-            if self.fp.is_file():  
-                with open(self.fp, 'r') as f: 
-                    loaded_dict = json.load(f) 
-    
-                return loaded_dict  
-            else:
-                #print(f"File {fp} doesn't exist. Giving empty dict")   
-                return {} 
-            
-    def _Rolltable_Loader(self):    #load the tables from self.table_dict one at a time creating a list of CRolltable 
-        #first check the dict is a "type": "rollTableLibrary"
-        d = self._open_roll_table_library() 
-        if d['type'] == 'rollTableLibrary': 
-            self._proccess_RolltableLibrary(d)
-
-    def get_RollTables(self):
-        return self.RollTables 
-
-    def _proccess_RolltableLibrary(self, d: dict): 
-        mlist = d['tables'] #list of dicts
-        for d in mlist:
-            rt = self._makeRollTable(d)
-            self.RollTables.append(rt) 
-
-    def _makeRollTable(self, d):
-        name = d.get('name') 
-        columns = d.get('columns')
-        entries = d.get('entries')
-        table_id = d.get('id')
-        description = d.get('description')
-        tags = d.get('tags')
-        diceType = d.get('diceType')
-        rangeMode = d.get('rangeMode')
-
-        rollExpression = d.get('rollExpression')
-
-        folderId = d.get('folderId')
-        created_at = d.get('created_at') 
-
-        return CRollTable(name, columns, entries, table_id, description, tags, diceType, rangeMode, rollExpression, folderId, created_at)
-
-    def render(self,render_type: str):  #How the tables are displayed. 
-
-        if render_type == 'md': 
-            for rt in self.RollTables:
-                    rt.markdown_render() 
-        if render_type == 'GUI':    #Stack all tables together in st, add a search bar that searches name and tags of the CRollTable
-            self.gui_main()
-
-    def gui_main(self):
-       
-        search_text = st.text_input(label='Search', type='search', key='1') 
-        new_table_txt = st.text_input(label = 'Table entry', type='default', key='2')
-        if st.button("Create New Table", key='4'):
-            self._create_new_table(txt = new_table_txt)  
-            st.rerun() 
-
-        RollTables_filtered = self._matches_search(search_text)  
-        self._display_tables(RollTables_filtered)        
-
-    def _create_new_table(self, txt: str): #debug 
-
-        def _is_text_fp(): 
-            #print(Path(txt).is_file()) 
-            #print(Path(txt).suffix)  
-            if Path(txt).suffix == '.csv' or Path(txt).suffix =='.txt':
-                return Path(txt).is_file()
-            else:
-                return False
-        if _is_text_fp():
-            fp = Path(txt) 
-            self.rti.create_from_file(list_fp=fp) 
-        else:
-            self.rti.create_from_text_entry(text = txt)#'''
-    
-    def _display_tables(self, RollTables_filtered: list): #displayes given tables, enalbes control of what tables are displayed.
-        for rt in RollTables_filtered:  
-            rt._GUI_fragment() 
-
-            #''' 
-            new_tags = st.text_input(label='Enter New Tags', type='default', key=rt.get_id()+'6') 
-            if st.button("Modify Tags", key=rt.get_id()+'4'):
-                rt.add_tags(new_tags) 
-                #TODO: modify the json at CRollTable level
-                st.rerun() #'''
-            if st.button("Remove Tags", key=rt.get_id()+'7'):
-                rt.remove_tags()
-                st.rerun() 
-
-            if st.button("Delete Table", key=rt.get_id()+'5'):
-                table_id = rt.get_id()
-                removed, _ = self.rti.remove_table_from_library(table_id)
-                if removed:
-                    RollTables_filtered = self._remove_table(table_id, RollTables_filtered) 
-                    st.rerun() 
-            
-
-    def _remove_table(self, table_id:str, RollTables_filtered:list):
-        for rt in RollTables_filtered: 
-            if rt.get_id == table_id:
-                self.RollTables.remove(rt) 
-        return self.RollTables 
-                  
-    def _matches_search(self, search: str):
-        filtered_RollTables = []
-        for rt in self.RollTables:  
-            if rt.matches_txt(txt = search):    # only tables matching the txt -non case sensitive- will be displayed others hidden. 
-                filtered_RollTables.append(rt)
-                
-        return filtered_RollTables
-
-#~
 
 class CRollTable:   #Holds data related to the table
     def __init__(self,  name, columns, entries, id, description, tags, diceType, rangeMode, rollExpression, folderId, created_at):
@@ -262,22 +131,156 @@ class CRollTable:   #Holds data related to the table
     def _roll_value(self, n):
         return self._unpack_list(self.entries[n]['results'])
     
-    def _GUI_fragment(self):  
 
-        st.markdown(f"## {self.name}")
-        tab = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-        st.markdown(f"*Tags: {self._unpack_list(self.tags)}{tab}-{tab}Dice Type: {self.rollExpression}*") 
 
-        if st.button("🎲 Roll", key=self.id+'1'): 
+class CGUI_streamlit:
+    def __init__(self):
+        self.tl = CTableLibrary()
+        #self.rti = CRollTableInterface() #should only know CTableLibrary, have that call the tables and interface 
+        #self.rt = CRollTable #but each rolltable has its own buttons, should the GUI know the rolltables? 
+        self.main_page()
+
+    def main_page(self):
+        st.markdown("# ROLL TABLE LIBRARY")
+        self.tl.gui_main() #tables and search bar
+
+#~ 
+
+class CTableLibrary:    #contains an list of CRollTables
+    def __init__(self, fp= Path( "./tables/rollTableLibrary.json")):
+        self.rti = CRollTableInterface(fp=fp)  
+        self.fp = fp
+        self.RollTables = [] 
+        self._Rolltable_Loader() 
+
+    def _open_roll_table_library(self): 
+            if self.fp.is_file():  
+                with open(self.fp, 'r') as f: 
+                    loaded_dict = json.load(f) 
+    
+                return loaded_dict  
+            else:
+                #print(f"File {fp} doesn't exist . Giving empty dict")   
+                return {} 
             
-            st.write(self._roll_value(self._roll())) 
+    def _Rolltable_Loader(self):    #load the tables from self.table_dict one at a time creating a list of CRolltable 
+        #first check the dict is a "type": "rollTableLibrary"
+        d = self._open_roll_table_library() 
+        if d['type'] == 'rollTableLibrary': 
+            self._proccess_RolltableLibrary(d)
 
-        if st.button("Display Table", key=self.id+'2'): 
-                    text = self.markdown_render(create_file = False, output_txt = True)
-                    st.markdown(text)  
+    def get_RollTables(self):
+        return self.RollTables 
 
-        if st.button("Print md", key=self.id+'3'):  
-             self.markdown_render() 
+    def _proccess_RolltableLibrary(self, d: dict): 
+        mlist = d['tables'] #list of dicts
+        for d in mlist:
+            rt = self._makeRollTable(d)
+            self.RollTables.append(rt) 
+
+    def _makeRollTable(self, d):
+        name = d.get('name') 
+        columns = d.get('columns')
+        entries = d.get('entries')
+        table_id = d.get('id')
+        description = d.get('description')
+        tags = d.get('tags')
+        diceType = d.get('diceType')
+        rangeMode = d.get('rangeMode')
+ 
+        rollExpression = d.get('rollExpression')
+
+        folderId = d.get('folderId')
+        created_at = d.get('created_at') 
+
+        return CRollTable(name, columns, entries, table_id, description, tags, diceType, rangeMode, rollExpression, folderId, created_at)
+
+    def gui_main(self):
+       
+        search_text = st.text_input(label='Search', type='search', key='1') 
+        new_table_txt = st.text_input(label = 'Table entry', type='default', key='2')
+        if st.button("Create New Table", key='4'):
+            self._create_new_table(txt = new_table_txt)  #CTableLibrary
+            st.rerun() 
+
+        RollTables_filtered = self._matches_search(search_text)  #CTableLibrary
+        self._display_tables(RollTables_filtered)        #CTableLibrary
+
+    def _display_tables(self, RollTables_filtered: list): #displayes given tables, enalbes control of what tables are displayed.
+        for rt in RollTables_filtered:  #CRolTable
+            self._GUI_fragment_roll_display_print(rt)  
+
+            self._GUI_fragment_tags(rt)
+
+            #"""
+            self._GUI_fragment_del(rt, RollTables_filtered) 
+            st.rerun() 
+
+    def _GUI_fragment_del(self, rt: CRollTable, RollTables_filtered: list):#""" 
+            if st.button("Delete Table", key=rt.get_id()+'5'):
+                            table_id = rt.get_id() #CRolTable
+                            removed, _ = self.rti.remove_table_from_library(table_id)#CRollTableInterface
+                            if removed:
+                                return self._remove_table(table_id, RollTables_filtered)  #CTableLibrary
+
+    def _GUI_fragment_tags(self, rt: CRollTable):
+        new_tags = st.text_input(label='Enter New Tags', type='default', key=rt.get_id()+'6') 
+        if st.button("Modify Tags", key=rt.get_id()+'4'):
+            rt.add_tags(new_tags) #CRolTable
+            #TODO: modify the json at CRollTable level
+            st.rerun() #'''
+        if st.button("Remove Tags", key=rt.get_id()+'7'):
+            rt.remove_tags()
+            st.rerun() 
+    
+    def _GUI_fragment_roll_display_print(self, rt: CRollTable):  
+    
+            st.markdown(f"## {rt.name}")
+            tab = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+            st.markdown(f"*Tags: {rt._unpack_list(rt.tags)}{tab}-{tab}Dice Type: {rt.rollExpression}*") #CRolTable
+    
+            if st.button("🎲 Roll", key=rt.get_id()+'1'): 
+                
+                st.write(rt._roll_value(rt._roll())) #CRolTable
+    
+            if st.button("Display Table", key=rt.get_id()+'2'): 
+                        text = rt.markdown_render(create_file = False, output_txt = True) #CRolTable
+                        st.markdown(text)  
+    
+            if st.button("Print md", key=rt.get_id()+'3'):  
+                 rt.markdown_render() #CRolTable      
+
+
+    def _create_new_table(self, txt: str): #debug 
+
+        def _is_text_fp(): 
+            if Path(txt).suffix == '.csv' or Path(txt).suffix =='.txt':
+                return Path(txt).is_file()
+            else:
+                return False
+
+        if _is_text_fp():
+            fp = Path(txt) 
+            self.rti.create_from_file(list_fp=fp) #CRollTableInterface
+        else:
+            self.rti.create_from_text_entry(text = txt)#''' CRollTableInterface
+    
+
+    def _remove_table(self, table_id:str, RollTables_filtered:list):
+        for rt in RollTables_filtered: 
+            if rt.get_id == table_id:
+                self.RollTables.remove(rt) 
+        return self.RollTables 
+                  
+    def _matches_search(self, search: str):
+        filtered_RollTables = []
+        for rt in self.RollTables:  
+            if rt.matches_txt(txt = search):    # only tables matching the txt -non case sensitive- will be displayed others hidden. 
+                filtered_RollTables.append(rt)
+                
+        return filtered_RollTables
+
+#~
 
           
 

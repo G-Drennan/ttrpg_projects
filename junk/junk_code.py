@@ -2,6 +2,18 @@
 
 #Junk 
 
+#Reason for removal:
+    #CTableLibrary wont render tables anymore
+
+"""    
+    def render(self,render_type: str):  #How the tables are displayed. TODO: remove
+
+        if render_type == 'md': 
+            for rt in self.RollTables:
+                    rt.markdown_render() 
+        if render_type == 'GUI':    #Stack all tables together in st, add a search bar that searches name and tags of the CRollTable
+            self.gui_main()"""
+
 #Reason for removal: 
     #   HMLT knowlegde was required 
     #   my python functions and data types couldn't interact intuitively. 
