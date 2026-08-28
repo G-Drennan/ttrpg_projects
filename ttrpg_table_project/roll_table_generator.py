@@ -5,7 +5,7 @@ import time
 import pandas as pd
 
 class CRollTableInterface:
-    def __init__(self, fp = Path("./tables/rollTableLibrary.json")):
+    def __init__(self, fp = Path("/home/giaan/Desktop/ttrpg_projects/ttrpg_table_project/tables/rollTableLibrary.json")):
             self.fp = fp
             self.table_library_dict = self.open_table_library() 
 
