@@ -6,10 +6,10 @@ from mdutils.mdutils import MdUtils
 from roll_table_generator import CRollTableInterface
 
 
-#TODO: 1 move st out of CTableLibrary and CRollTable 
-#TODO: 2 add error handeling  
-#TODO: 3 Is CTableLibrary a Repository?  
-
+#TODO: 3 add error handeling  
+#TODO: Is CTableLibrary a Repository?  
+#TODO: 1 Download md instead of storeing the file
+#TODO: 2 Add Better instructions 
 
 class CRollTable:   #Holds data related to the table
     def __init__(self,  name, columns, entries, id, description, tags, diceType, rangeMode, rollExpression, folderId, created_at):
@@ -53,11 +53,9 @@ class CRollTable:   #Holds data related to the table
         self.tags = []
         self._update_json()
 
-
     def _update_json(self):
         me = self.refresh_me()
         self.rti.update_json(id = self.id, updated_table= me) 
-
 
     def get_id(self):
         return self.id
@@ -129,7 +127,7 @@ class CRollTable:   #Holds data related to the table
     def _roll_value(self, n):
         return self._unpack_list(self.entries[n]['results'])
     
-
+#~
 
 class CTableLibrary:    #contains an list of CRollTables
     def __init__(self, fp= Path( "./tables/rollTableLibrary.json")):

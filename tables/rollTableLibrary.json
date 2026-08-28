@@ -3,435 +3,13 @@
     "type": "rollTableLibrary",
     "tables": [
         {
-            "id": "8877539c-924a-4520-ac43-7d52fe0ce67b",
-            "name": "Name Generator (CHICKEN EDITION)",
-            "description": "",
-            "tags": [
-                "npc",
-                " names",
-                "silly"
-            ],
-            "diceType": "d20",
-            "rangeMode": false,
-            "rollExpression": "d50",
-            "columns": [
-                {
-                    "id": "a47386ab-38fd-477c-90e9-29fece29ab00",
-                    "name": "Name"
-                }
-            ],
-            "entries": [
-                {
-                    "id": "3c26f721-703f-444c-ac60-46d2d1b23dee",
-                    "minRoll": 1,
-                    "maxRoll": 1,
-                    "results": [
-                        "Oravka"
-                    ]
-                },
-                {
-                    "id": "34c61dbb-668c-471b-87c8-374d6d7d4bb6",
-                    "minRoll": 2,
-                    "maxRoll": 2,
-                    "results": [
-                        "La Fl\u00c3\u00a8che"
-                    ]
-                },
-                {
-                    "id": "324f65eb-910c-4e42-bdd6-3848bfd44a21",
-                    "minRoll": 3,
-                    "maxRoll": 3,
-                    "results": [
-                        "Vanaraja"
-                    ]
-                },
-                {
-                    "id": "10bddac9-6b08-4556-8738-b33750df23fa",
-                    "minRoll": 4,
-                    "maxRoll": 4,
-                    "results": [
-                        "Araucana"
-                    ]
-                },
-                {
-                    "id": "c09f0e8d-adbb-4402-bd5e-2dd40f9531b1",
-                    "minRoll": 5,
-                    "maxRoll": 5,
-                    "results": [
-                        "Chahua"
-                    ]
-                },
-                {
-                    "id": "e1e2dd71-5878-4039-b4b0-3c5c3884bfa0",
-                    "minRoll": 6,
-                    "maxRoll": 6,
-                    "results": [
-                        "Dulong"
-                    ]
-                },
-                {
-                    "id": "ec1f0d3a-869b-4b5b-94e5-899b8e37d424",
-                    "minRoll": 7,
-                    "maxRoll": 7,
-                    "results": [
-                        "Hetian Black"
-                    ]
-                },
-                {
-                    "id": "2f825599-6bd9-4edd-93eb-9046987c719e",
-                    "minRoll": 8,
-                    "maxRoll": 8,
-                    "results": [
-                        "Blackbone"
-                    ]
-                },
-                {
-                    "id": "94d8d4b5-51db-49b6-bd44-4f55bbeac9a7",
-                    "minRoll": 9,
-                    "maxRoll": 9,
-                    "results": [
-                        "Kangdar Buff"
-                    ]
-                },
-                {
-                    "id": "18fd19fc-cfa9-4e38-9d90-82d6e166902a",
-                    "minRoll": 10,
-                    "maxRoll": 10,
-                    "results": [
-                        "Miyi"
-                    ]
-                },
-                {
-                    "id": "661c2798-7b0d-4cae-a6d7-aeb6b16ab1e1",
-                    "minRoll": 11,
-                    "maxRoll": 11,
-                    "results": [
-                        "Shimian Caoke"
-                    ]
-                },
-                {
-                    "id": "c4715edf-0672-4a2b-8742-70c58597f16c",
-                    "minRoll": 12,
-                    "maxRoll": 12,
-                    "results": [
-                        "Yulong Shortleg"
-                    ]
-                },
-                {
-                    "id": "d62c7a69-f126-495f-9382-1643c74f195d",
-                    "minRoll": 13,
-                    "maxRoll": 13,
-                    "results": [
-                        "Goldbrindle"
-                    ]
-                },
-                {
-                    "id": "724221eb-24ef-4154-8689-c7f13d972bc3",
-                    "minRoll": 14,
-                    "maxRoll": 14,
-                    "results": [
-                        "Cr\u00c3\u00a8vecoeur"
-                    ]
-                },
-                {
-                    "id": "f6e50cc6-2260-4d31-92d9-1dbc174ca037",
-                    "minRoll": 15,
-                    "maxRoll": 15,
-                    "results": [
-                        "Arbrinkers"
-                    ]
-                },
-                {
-                    "id": "b92e7ab8-9107-45ba-ada1-2505bf729f32",
-                    "minRoll": 16,
-                    "maxRoll": 16,
-                    "results": [
-                        "Bandara"
-                    ]
-                },
-                {
-                    "id": "27d894ab-ce2c-444f-8bd8-a02c2401b3f2",
-                    "minRoll": 17,
-                    "maxRoll": 17,
-                    "results": [
-                        "Boffen"
-                    ]
-                },
-                {
-                    "id": "f613f899-8004-4528-8709-103a91fb3bcf",
-                    "minRoll": 18,
-                    "maxRoll": 18,
-                    "results": [
-                        "Baladi Beheri"
-                    ]
-                },
-                {
-                    "id": "80d749d4-9433-4cf1-bece-2da194310b18",
-                    "minRoll": 19,
-                    "maxRoll": 19,
-                    "results": [
-                        "Jussila"
-                    ]
-                },
-                {
-                    "id": "9c30ea88-a13e-417b-8a8b-e352c80ad481",
-                    "minRoll": 20,
-                    "maxRoll": 20,
-                    "results": [
-                        "Luum\u00c3\u00a4ki"
-                    ]
-                },
-                {
-                    "id": "e9fb2905-a04d-484c-b5fe-15fe8fdc0774",
-                    "minRoll": 21,
-                    "maxRoll": 21,
-                    "results": [
-                        "Piikkio"
-                    ]
-                },
-                {
-                    "id": "3552779d-d037-46cb-a6b9-d1a3f9f22bf2",
-                    "minRoll": 22,
-                    "maxRoll": 22,
-                    "results": [
-                        "Hornio"
-                    ]
-                },
-                {
-                    "id": "3935ad84-70c4-412b-b6d9-b30ad1f91311",
-                    "minRoll": 23,
-                    "maxRoll": 23,
-                    "results": [
-                        "Barbezieux"
-                    ]
-                },
-                {
-                    "id": "c17c2cdf-8d4f-43eb-9f4e-55bbcde2a87e",
-                    "minRoll": 24,
-                    "maxRoll": 24,
-                    "results": [
-                        "Jalasj\u00c3\u00a4rvi"
-                    ]
-                },
-                {
-                    "id": "5631def9-5835-4b5f-8611-a39dcbc2e229",
-                    "minRoll": 25,
-                    "maxRoll": 25,
-                    "results": [
-                        "Lindellin"
-                    ]
-                },
-                {
-                    "id": "5f1629e4-833c-445f-9f01-674c546f8ccb",
-                    "minRoll": 26,
-                    "maxRoll": 26,
-                    "results": [
-                        "Tyrn\u00c3\u00a4v\u00c3\u00a4"
-                    ]
-                },
-                {
-                    "id": "add55ee0-a347-44c8-abe6-3eae84822077",
-                    "minRoll": 27,
-                    "maxRoll": 27,
-                    "results": [
-                        "Ardeale"
-                    ]
-                },
-                {
-                    "id": "c61a54c2-b97e-44cf-b15d-7aaa65ecc8f8",
-                    "minRoll": 28,
-                    "maxRoll": 28,
-                    "results": [
-                        "Caussade"
-                    ]
-                },
-                {
-                    "id": "1077c353-d45a-4ad0-b754-e799cd6ecd60",
-                    "minRoll": 29,
-                    "maxRoll": 29,
-                    "results": [
-                        "Dresdner"
-                    ]
-                },
-                {
-                    "id": "67c93155-a47f-4403-9e6b-0d6326c4b496",
-                    "minRoll": 30,
-                    "maxRoll": 30,
-                    "results": [
-                        "Phoenix"
-                    ]
-                },
-                {
-                    "id": "6353f65a-ac1f-43f1-94c4-52a54d1fd36a",
-                    "minRoll": 31,
-                    "maxRoll": 31,
-                    "results": [
-                        "Sundheimer"
-                    ]
-                },
-                {
-                    "id": "0f5d418c-ea07-48ea-8d8d-3a6b2e0111bc",
-                    "minRoll": 32,
-                    "maxRoll": 32,
-                    "results": [
-                        "Ilonissos"
-                    ]
-                },
-                {
-                    "id": "149601a7-8822-425a-ad37-d71b4ed6916e",
-                    "minRoll": 33,
-                    "maxRoll": 33,
-                    "results": [
-                        "Cari Gold"
-                    ]
-                },
-                {
-                    "id": "f0ecfd2e-e8d1-499e-95c4-d47261d8e554",
-                    "minRoll": 34,
-                    "maxRoll": 34,
-                    "results": [
-                        "Orloff"
-                    ]
-                },
-                {
-                    "id": "8f1bea26-d642-49de-a04c-d2b52dd2d460",
-                    "minRoll": 35,
-                    "maxRoll": 35,
-                    "results": [
-                        "Ancona"
-                    ]
-                },
-                {
-                    "id": "b2e0d8b5-0bfb-4987-9115-1fab06ced711",
-                    "minRoll": 36,
-                    "maxRoll": 36,
-                    "results": [
-                        "Millefiori"
-                    ]
-                },
-                {
-                    "id": "1228192c-5f5d-4b2c-9b15-1a9554a8bac5",
-                    "minRoll": 37,
-                    "maxRoll": 37,
-                    "results": [
-                        "Valdarno"
-                    ]
-                },
-                {
-                    "id": "58f7747b-3af6-4bf4-b21f-6a26da164f8d",
-                    "minRoll": 38,
-                    "maxRoll": 38,
-                    "results": [
-                        "Nagoya"
-                    ]
-                },
-                {
-                    "id": "259a3e0d-f1de-41bf-916d-d5d64c76a2c3",
-                    "minRoll": 39,
-                    "maxRoll": 39,
-                    "results": [
-                        "Totenko"
-                    ]
-                },
-                {
-                    "id": "d07c6aa8-301f-487a-9f2f-51d1baea22cc",
-                    "minRoll": 40,
-                    "maxRoll": 40,
-                    "results": [
-                        "Welsummer"
-                    ]
-                },
-                {
-                    "id": "68b710d7-0607-4a07-97e4-0b831e775e97",
-                    "minRoll": 41,
-                    "maxRoll": 41,
-                    "results": [
-                        "Amarela"
-                    ]
-                },
-                {
-                    "id": "93ce55f0-d75e-4f83-ac42-8615077bc3db",
-                    "minRoll": 42,
-                    "maxRoll": 42,
-                    "results": [
-                        "Darag"
-                    ]
-                },
-                {
-                    "id": "98eba1d6-5298-4c49-a108-952287357560",
-                    "minRoll": 43,
-                    "maxRoll": 43,
-                    "results": [
-                        "Branca"
-                    ]
-                },
-                {
-                    "id": "4341bef5-ce2e-48a3-81ea-4a3804c64436",
-                    "minRoll": 44,
-                    "maxRoll": 44,
-                    "results": [
-                        "Silverudd"
-                    ]
-                },
-                {
-                    "id": "29709707-4e42-4ab6-ac99-de2a1bca92da",
-                    "minRoll": 45,
-                    "maxRoll": 45,
-                    "results": [
-                        "Rosecomb"
-                    ]
-                },
-                {
-                    "id": "9650acf2-504c-4f3f-b7e7-c71d84b53de8",
-                    "minRoll": 46,
-                    "maxRoll": 46,
-                    "results": [
-                        "Marsh Daisy"
-                    ]
-                },
-                {
-                    "id": "2a213718-9d44-473e-8f08-ddaa7eac677a",
-                    "minRoll": 47,
-                    "maxRoll": 47,
-                    "results": [
-                        "Poltava"
-                    ]
-                },
-                {
-                    "id": "7defe5be-277d-4c30-8cab-e08f06edc137",
-                    "minRoll": 48,
-                    "maxRoll": 48,
-                    "results": [
-                        "Brabanter"
-                    ]
-                },
-                {
-                    "id": "44e93121-2dac-4a4d-9926-dcdace1950f3",
-                    "minRoll": 49,
-                    "maxRoll": 49,
-                    "results": [
-                        "Koeyoshi"
-                    ]
-                },
-                {
-                    "id": "d539e26b-bd83-4de0-940d-cc5d295c45d0",
-                    "minRoll": 50,
-                    "maxRoll": 50,
-                    "results": [
-                        "Bekisar"
-                    ]
-                }
-            ],
-            "folderId": null,
-            "created_at": 1787230003427
-        },
-        {
             "id": "cc58e89c-b426-4fc2-89f8-24950fd3cbc5",
             "name": "Temperature",
             "description": "",
             "tags": [
                 "weather",
-                " travel"
+                " travel",
+                "D&D"
             ],
             "diceType": "d3",
             "rangeMode": false,
@@ -476,7 +54,8 @@
             "name": "Wind",
             "description": "",
             "tags": [
-                "weather"
+                "weather",
+                "D&D"
             ],
             "diceType": "d3",
             "rangeMode": false,
@@ -521,7 +100,8 @@
             "name": "Precipitation",
             "description": "",
             "tags": [
-                "weather"
+                "weather",
+                "D&D"
             ],
             "diceType": "d3",
             "rangeMode": false,
@@ -560,6 +140,178 @@
             ],
             "folderId": null,
             "created_at": 1787794275943
+        },
+        {
+            "id": "43de1cb0-a0ee-4459-a7f6-e411326a50db",
+            "name": "Situation Goal",
+            "description": "",
+            "tags": [
+                "Scenario",
+                "wargamming"
+            ],
+            "diceType": "d4",
+            "rangeMode": false,
+            "rollExpression": "d4",
+            "columns": [
+                {
+                    "id": "d9277c1f-8404-4496-9684-4d55fe0cd7fe",
+                    "name": "d4"
+                }
+            ],
+            "entries": [
+                {
+                    "id": "17f21ce2-3a03-4821-8c54-7cde71afdaf5",
+                    "minRoll": 1,
+                    "maxRoll": 1,
+                    "results": [
+                        "Extraction"
+                    ]
+                },
+                {
+                    "id": "efa551e2-f885-463d-af19-7878cd094029",
+                    "minRoll": 2,
+                    "maxRoll": 2,
+                    "results": [
+                        "Reconnaissance"
+                    ]
+                },
+                {
+                    "id": "2f056401-eb0f-4be2-b547-5a4398c93928",
+                    "minRoll": 3,
+                    "maxRoll": 3,
+                    "results": [
+                        "Survey"
+                    ]
+                },
+                {
+                    "id": "cb01d7eb-0f05-4148-bc73-f26372dd2e18",
+                    "minRoll": 4,
+                    "maxRoll": 4,
+                    "results": [
+                        "Transport"
+                    ]
+                }
+            ],
+            "folderId": null,
+            "created_at": 1787887305251
+        },
+        {
+            "id": "6a9dd223-85d3-43b4-9b9c-42eeb0948501",
+            "name": "d12",
+            "description": "",
+            "tags": [
+                "dice",
+                "d12"
+            ],
+            "diceType": "d12",
+            "rangeMode": false,
+            "rollExpression": "d12",
+            "columns": [
+                {
+                    "id": "124b162f-d69f-4b0e-9ee9-9a7662153fff",
+                    "name": "d12"
+                }
+            ],
+            "entries": [
+                {
+                    "id": "1b04bad6-5857-41bb-930d-da6eb3496271",
+                    "minRoll": 1,
+                    "maxRoll": 1,
+                    "results": [
+                        "1"
+                    ]
+                },
+                {
+                    "id": "fab838e1-5e17-494d-ae02-62deede77dbe",
+                    "minRoll": 2,
+                    "maxRoll": 2,
+                    "results": [
+                        "2"
+                    ]
+                },
+                {
+                    "id": "8a5288dd-a086-4404-adf9-a1d1b60d02ef",
+                    "minRoll": 3,
+                    "maxRoll": 3,
+                    "results": [
+                        "3"
+                    ]
+                },
+                {
+                    "id": "c80cec49-1ee2-49fe-9888-11526b31e67d",
+                    "minRoll": 4,
+                    "maxRoll": 4,
+                    "results": [
+                        "4"
+                    ]
+                },
+                {
+                    "id": "d2aa5718-d323-4185-af59-9488e478119a",
+                    "minRoll": 5,
+                    "maxRoll": 5,
+                    "results": [
+                        "5"
+                    ]
+                },
+                {
+                    "id": "b1113cfe-eca3-45e5-b65a-f6333e98f281",
+                    "minRoll": 6,
+                    "maxRoll": 6,
+                    "results": [
+                        "6"
+                    ]
+                },
+                {
+                    "id": "317bd8e0-852d-482d-82b1-ded74b8a0a7d",
+                    "minRoll": 7,
+                    "maxRoll": 7,
+                    "results": [
+                        "7"
+                    ]
+                },
+                {
+                    "id": "f524cada-822e-4cef-881c-2efdbe798562",
+                    "minRoll": 8,
+                    "maxRoll": 8,
+                    "results": [
+                        "8"
+                    ]
+                },
+                {
+                    "id": "00a89b2b-27cd-47bb-8ea3-76ab8b5ee139",
+                    "minRoll": 9,
+                    "maxRoll": 9,
+                    "results": [
+                        "9"
+                    ]
+                },
+                {
+                    "id": "8bbebc8c-8fd9-4ea9-82a6-cf467f94c3fc",
+                    "minRoll": 10,
+                    "maxRoll": 10,
+                    "results": [
+                        "10"
+                    ]
+                },
+                {
+                    "id": "e1c9254b-a086-4d2c-8c68-b4fb8d044eb2",
+                    "minRoll": 11,
+                    "maxRoll": 11,
+                    "results": [
+                        "11"
+                    ]
+                },
+                {
+                    "id": "11108fbc-7bb3-495d-b729-3f2641bd7240",
+                    "minRoll": 12,
+                    "maxRoll": 12,
+                    "results": [
+                        "12"
+                    ]
+                }
+            ],
+            "folderId": null,
+            "created_at": 1787888060613
         }
     ],
     "folders": []

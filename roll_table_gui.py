@@ -5,8 +5,7 @@ from roll_table_reader_base import CTableLibrary, CRollTable
 class CGUI_streamlit:
     def __init__(self):
         self.tl = CTableLibrary()
-        #self.rti = CRollTableInterface() #should only know CTableLibrary, have that call the tables and interface 
-        #self.rt = CRollTable #but each rolltable has its own buttons, should the GUI know the rolltables? 
+
         self.main_page()
 
     def main_page(self):

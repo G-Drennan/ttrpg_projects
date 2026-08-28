@@ -2,7 +2,7 @@ import os
 import json
 from pathlib import Path 
 import uuid 
-import time
+import time 
 import pandas as pd
 
 class CRollTableInterface:
@@ -10,7 +10,6 @@ class CRollTableInterface:
             self.fp = fp
             self.table_library_dict = self.open_table_library() 
 
-    #add a method to delate tables
     def update_json(self, id: str, updated_table: dict):
         #replace a table with its new version
         tables = [] 
@@ -156,6 +155,7 @@ class CRollTableFactory:        #converts given list into the required json form
         return entries 
 
 
+
 class CTableReaderFactory:
     def __init__(self):
         pass 
@@ -167,7 +167,6 @@ class CTableReaderFactory:
             return CCsvTableReader(fp)
         elif fp_end == 'txt':
             return CCsvTableReader(fp)
-
 
 class CTableReader: 
     def __init__(self, fp: Path):
@@ -186,7 +185,6 @@ class CTableReader:
         l = l[0].split('.')
         return l[0]
           
-
     def get_file_type(self): 
 
          #file name file off the path and file type
@@ -235,7 +233,6 @@ class CCsvTableReader(CTableReader):
     def _read_csv(self):  
         self.df =  pd.read_csv(self.fp, header=None)  
             
-
 class CTxtTableReader(CTableReader): 
 
     def _parse_file(self):
