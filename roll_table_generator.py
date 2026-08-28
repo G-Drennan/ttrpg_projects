@@ -241,18 +241,3 @@ class CTxtTableReader(CTableReader):
     def _parse_file(self):
         self._read()  
         return self.input.splitlines() #expects form "roll 1.\nroll 2.\nroll 3\n ect..."
-
-
-def main(): #TODO: args to the program should be a lsit of str for csv and txt to convert to tables 
-    #fp = Path("./Temperature.txt") 
-    tr = CRollTableInterface()   
-    '''input = ('john', 'a,b,c,d')  
-    input2 = 'john; a;oen mroe thiung,b,c,d'
-    print('output: ', tr.create_from_text_entry(input2)) #cope with this'''
-
-    tr.remove_table_from_library('8877539c-924a-4520-ac43-7d52fe0ce67b')
-
-
-
-if __name__ == "__main__":
-    main()

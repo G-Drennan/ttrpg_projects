@@ -430,7 +430,8 @@
             "name": "Temperature",
             "description": "",
             "tags": [
-                "weather"
+                "weather",
+                " travel"
             ],
             "diceType": "d3",
             "rangeMode": false,
