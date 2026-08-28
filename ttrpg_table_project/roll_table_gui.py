@@ -1,5 +1,6 @@
-import streamlit as st      #python -m streamlit run roll_table_gui.py 
+import streamlit as st      #python3 -m streamlit run roll_table_gui.py 
 from roll_table_reader_base import CTableLibrary, CRollTable
+
 
 
 class CGUI_streamlit:
@@ -19,9 +20,20 @@ class CGUI_streamlit:
         if st.button("Create New Table", key='4'):
             self.tl._create_new_table(txt = new_table_txt)  #CTableLibrary
             st.rerun() 
+        
+        RollTables_filtered = self._search_bar(search_text) 
+        self._display_tables(RollTables_filtered)      
+    
 
-        RollTables_filtered = self.tl._matches_search(search_text)  #CTableLibrary
-        self._display_tables(RollTables_filtered)        
+
+    def _search_bar(self, search_input: str):
+            items = search_input.split(' ')
+            #RollTables_filtered = self.tl.matches_search(search_input)  #CTableLibrary
+            RollTables_filtered = [] 
+            for i in items: 
+                RollTables_filtered = self.tl.matches_search(i, RollTables_filtered)
+
+            return RollTables_filtered    
 
     def _display_tables(self, RollTables_filtered: list): #displayes given tables, enalbes control of what tables are displayed.
         for rt in RollTables_filtered:  #CRolTable

@@ -203,12 +203,16 @@ class CTableLibrary:    #contains an list of CRollTables
                 self.RollTables.remove(rt) 
         return self.RollTables 
                   
-    def _matches_search(self, search: str):
+    def matches_search(self, search: str, input_tables: list = []):
         filtered_RollTables = []
-        for rt in self.RollTables:  
+        
+        if input_tables == filtered_RollTables:
+            input_tables = self.RollTables
+        for rt in input_tables:  
             if rt.matches_txt(txt = search):    # only tables matching the txt -non case sensitive- will be displayed others hidden. 
                 filtered_RollTables.append(rt)
                 
+
         return filtered_RollTables
 
 #~
