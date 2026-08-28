@@ -116,7 +116,9 @@ class CTableLibrary:    #contains an list of CRollTables
                 rt.add_tags(new_tags) 
                 #TODO: modify the json at CRollTable level
                 st.rerun() #'''
-
+            if st.button("Remove Tags", key=rt.get_id()+'7'):
+                rt.remove_tags()
+                st.rerun() 
 
             if st.button("Delete Table", key=rt.get_id()+'5'):
                 table_id = rt.get_id()
@@ -158,8 +160,8 @@ class CRollTable:   #Holds data related to the table
 
         self.rti = CRollTableInterface()
 
-    def refresh_me(self):
-        self.me = { 
+    def refresh_me(self): #returns
+        return { 
             "id": self.id,
             "name": self.name,
             "description": self.description,
@@ -180,9 +182,14 @@ class CRollTable:   #Holds data related to the table
         self.tags.extend(new_tags.split(','))
         self._update_json()
 
+    def remove_tags(self):
+        self.tags = []
+        self._update_json()
+
+
     def _update_json(self):
-        self.refresh_me()
-        self.rti.update_json(id = self.id, updated_table=self.me) 
+        me = self.refresh_me()
+        self.rti.update_json(id = self.id, updated_table= me) 
 
 
     def get_id(self):

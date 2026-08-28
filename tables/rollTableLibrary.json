@@ -7,7 +7,7 @@
             "name": "Name Generator (CHICKEN EDITION)",
             "description": "",
             "tags": [
-                "NPCs",
+                "npc",
                 " names"
             ],
             "diceType": "d20",
@@ -428,7 +428,9 @@
             "id": "cc58e89c-b426-4fc2-89f8-24950fd3cbc5",
             "name": "Temperature",
             "description": "",
-            "tags": [],
+            "tags": [
+                "weather"
+            ],
             "diceType": "d3",
             "rangeMode": false,
             "rollExpression": "d3",
@@ -471,7 +473,9 @@
             "id": "1f465868-2dd7-4045-89d0-0d6e7dd9b3d4",
             "name": "Wind",
             "description": "",
-            "tags": [],
+            "tags": [
+                "weather"
+            ],
             "diceType": "d3",
             "rangeMode": false,
             "rollExpression": "d3",
@@ -514,7 +518,9 @@
             "id": "25d6e3a3-2c7a-48b5-a8bb-6f7e316dc8de",
             "name": "Precipitation",
             "description": "",
-            "tags": [],
+            "tags": [
+                "weather"
+            ],
             "diceType": "d3",
             "rangeMode": false,
             "rollExpression": "d3",
@@ -557,7 +563,10 @@
             "id": "9e732792-706c-416e-a9c3-e48d1d670667",
             "name": "Npc Attitude",
             "description": "",
-            "tags": [],
+            "tags": [
+                "npc",
+                " reaction"
+            ],
             "diceType": "d5",
             "rangeMode": false,
             "rollExpression": "d5",
