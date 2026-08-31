@@ -5,7 +5,7 @@ import time
 import pandas as pd
 
 class CRollTableInterface:
-    def __init__(self, fp = Path("/home/giaan/Desktop/ttrpg_projects/ttrpg_table_project/tables/rollTableLibrary.json")):
+    def __init__(self, fp = Path("./tables/rollTableLibrary.json")):
             self.fp = fp
             self.table_library_dict = self.open_table_library() 
 
@@ -224,7 +224,7 @@ class CCsvTableReader(CTableReader):
 
     def _parse_row_based(self):
         #print(self.df.columns) 
-        return self.df.iloc[:,0].to_list() 
+        return self.df.iloc[:,0].to_list()  
     
     def _parse_col_based(self):
         return self.df.iloc[0].to_list() #grab the first row
