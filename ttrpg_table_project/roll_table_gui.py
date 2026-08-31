@@ -22,7 +22,7 @@ class CGUI_streamlit:
         if password == input_password:
              password_entered = True
         if password_entered:
-            new_table_txt = st.text_input(label = 'Table entry:     Delimeter include the first \';\' and every \',\' afterwards e.g - Table Name; entry 1, entry 2, entry 3, entry 4\nGiven a file path it will also generate tables from txt (Delimeter \',\') and csv files', type='default', key='2')
+            new_table_txt = st.text_input(label = 'Table entry:     Delimeter include the first \';\' and every \',\' afterwards e.g - Table Name; entry 1, entry 2, entry 3, entry 4. \nGiven a file path it will also generate tables from txt (Delimeter \',\') and csv files (entires are the table entires only) NOTE: name of the file is the name of the table.', type='default', key='2')
             if st.button("Create New Table", key='4'): 
                 self.tl._create_new_table(txt = new_table_txt)  #CTableLibrary
                 st.rerun() 
@@ -60,12 +60,12 @@ class CGUI_streamlit:
         if password_entered: 
             new_tags = st.text_input(label='Enter New Tags: Delimeter is \',\' e.g Tag 1, Tag 2', type='default', key=rt.get_id()+'6') 
             if st.button("Modify Tags", key=rt.get_id()+'4'):
-                rt.add_tags(new_tags) #CRolTable
+                self.tl.add_tags(new_tags, rt=rt) #CRolTable
                 #TODO: modify the json at CRollTable level
                 st.rerun() 
 
             if st.button("Remove Tags", key=rt.get_id()+'7'):
-                rt.remove_tags()
+                self.tl.remove_tags(rt=rt) 
                 st.rerun() 
     
     def _GUI_fragment_roll_display_print(self, rt: CRollTable):  
