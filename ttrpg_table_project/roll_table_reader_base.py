@@ -10,7 +10,7 @@ from roll_table_generator import CRollTableInterface
 #TODO: Is CTableLibrary a Repository?  
 #TODO: 2 Download md instead of storeing the file
 
-class CRollTable:   #Holds data related to the table
+class CRollTable:   #Holds data related to the table 
     def __init__(self,  name, columns, entries, id, description, tags, diceType, rangeMode, rollExpression, folderId, created_at):
         self.name = name
         self.columns = columns
@@ -69,10 +69,9 @@ class CRollTable:   #Holds data related to the table
                     return True 
         return False
 
-    def markdown_render(self, create_file=True, output_txt=False):  #Either create a file or only write the table in md
+    def markdown_render(self, task: str = 'create_file'):  #Either create a file or only write the table in md
         md = MdUtils(file_name=self.name) 
-        t_header = not output_txt
-        if t_header:
+        if task == 'create_file' or task == 'output_txt_wth_header':
             md.new_header(level=1, title=self.name)
         table_text = [] 
         tableHeader = ["Roll", "Name"]
@@ -86,10 +85,10 @@ class CRollTable:   #Holds data related to the table
             text= table_text
         ) 
         
-        if output_txt:
+        if task == 'output_txt' or task == 'output_txt_wth_header':
             return md.get_md_text()
         
-        if create_file:
+        if task == 'create_file':
             md.create_md_file()
 
     def _extract_enties(self):  #Puts enteries into a list for md
