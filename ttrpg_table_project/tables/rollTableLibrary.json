@@ -4358,7 +4358,9 @@
             "tags": [
                 "Trail",
                 " Description",
-                " Cairn"
+                " Cairn",
+                "Dungeon",
+                " Forest"
             ],
             "diceType": "d20",
             "rangeMode": false,
@@ -4541,7 +4543,9 @@
             "tags": [
                 "Trail",
                 " Description",
-                " Cairn"
+                " Cairn",
+                "Forest",
+                "Environment"
             ],
             "diceType": "d20",
             "rangeMode": false,
@@ -5088,7 +5092,8 @@
             "tags": [
                 "Location",
                 " Cairn",
-                " Exploration"
+                " Exploration",
+                "Forest"
             ],
             "diceType": "d20",
             "rangeMode": false,
@@ -5271,7 +5276,8 @@
             "tags": [
                 "Location",
                 " Cairn",
-                " Exploration"
+                " Exploration",
+                "Forest"
             ],
             "diceType": "d23",
             "rangeMode": false,
@@ -5478,7 +5484,8 @@
             "tags": [
                 "Location",
                 " Rural",
-                "cairn"
+                "cairn",
+                "Forest"
             ],
             "diceType": "d20",
             "rangeMode": false,
@@ -5661,7 +5668,8 @@
             "tags": [
                 "Location",
                 " description",
-                "cairn"
+                "cairn",
+                "Forest"
             ],
             "diceType": "d21",
             "rangeMode": false,
@@ -5850,7 +5858,9 @@
             "name": "Hazard",
             "description": "",
             "tags": [
-                "cairn"
+                "cairn",
+                "Forest",
+                "Dungeon"
             ],
             "diceType": "d20",
             "rangeMode": false,
@@ -6031,7 +6041,9 @@
             "name": "Hazard Feature",
             "description": "",
             "tags": [
-                "cairn"
+                "cairn",
+                "dungeon",
+                "Forest"
             ],
             "diceType": "d20",
             "rangeMode": false,
