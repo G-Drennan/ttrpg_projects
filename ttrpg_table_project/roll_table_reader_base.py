@@ -82,7 +82,7 @@ class CRollTable:   #Holds data related to the table
     def _extract_enties(self):  #Puts enteries into a list for md
         row_entries = []
         for d in self.entries:
-            if d['minRoll'] is not d['maxRoll']:
+            if d['minRoll'] != d['maxRoll']: 
                 roll = str(d['minRoll']) + " - " + str(d['maxRoll'])
             else:
                 roll = str(d['minRoll']) 
@@ -90,7 +90,7 @@ class CRollTable:   #Holds data related to the table
 
             result = self._unpack_list(d['results'])
 
-            row_entries.append(result) 
+            row_entries.append(result)  
         return row_entries 
 
     def _unpack_list(self, mlist):  #coverts [a,b,c] to a,b,c or [a] to a 
@@ -201,10 +201,10 @@ class CTableLibrary:    #contains an list of CRollTables
     def _update_json(self, rt: CRollTable):
         self.rti.update_json(id = rt.get_id(), updated_table= rt.refresh_me()) 
                   
-    def matches_search(self, search: str, input_tables: list = []):
-        filtered_RollTables = []
+    def matches_search(self, search: str, input_tables: list = None):
+        filtered_RollTables = [] 
         
-        if input_tables == filtered_RollTables:
+        if input_tables is None: 
             input_tables = self.RollTables
         for rt in input_tables:  
             if rt.matches_txt(txt = search):    # only tables matching the txt -non case sensitive- will be displayed others hidden. 
