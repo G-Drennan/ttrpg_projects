@@ -8,7 +8,6 @@ from roll_table_generator import CRollTableInterface
 
 #TODO: 4 add error handeling  
 #TODO: Is CTableLibrary a Repository?  
-#TODO: 2 Download md instead of storeing the file
 
 class CRollTable:   #Holds data related to the table 
     def __init__(self,  name, columns, entries, id, description, tags, diceType, rangeMode, rollExpression, folderId, created_at):
@@ -40,21 +39,10 @@ class CRollTable:   #Holds data related to the table
             "folderId": self.folderId,
             "created_at": self.created_at
         }
+    
 
     def get_tags(self):
         return self.tags
-
-    def add_tags(self, new_tags: str):
-        self.tags.extend(new_tags.split(','))
-        self._update_json()
-
-    def remove_tags(self):
-        self.tags = []
-        self._update_json()
-
-    def _update_json(self):
-        me = self.refresh_me()
-        self.rti.update_json(id = self.id, updated_table= me) 
 
     def get_id(self):
         return self.id
@@ -197,9 +185,21 @@ class CTableLibrary:    #contains an list of CRollTables
 
     def _remove_table(self, table_id:str, RollTables_filtered:list):
         for rt in RollTables_filtered: 
-            if rt.get_id == table_id:
+            if rt.get_id() == table_id:
                 self.RollTables.remove(rt) 
         return self.RollTables 
+
+    
+    def add_tags(self, new_tags: str, rt: CRollTable):
+        rt.tags.extend(new_tags.split(','))
+        self._update_json(rt) 
+
+    def remove_tags(self, rt: CRollTable):
+        rt.tags = [] 
+        self._update_json(rt)  
+
+    def _update_json(self, rt: CRollTable):
+        self.rti.update_json(id = rt.get_id(), updated_table= rt.refresh_me()) 
                   
     def matches_search(self, search: str, input_tables: list = []):
         filtered_RollTables = []
