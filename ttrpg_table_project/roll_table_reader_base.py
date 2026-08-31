@@ -201,11 +201,11 @@ class CTableLibrary:    #contains an list of CRollTables
     def _update_json(self, rt: CRollTable):
         self.rti.update_json(id = rt.get_id(), updated_table= rt.refresh_me()) 
                   
-    def matches_search(self, search: str, input_tables: list = None): #replace with none cuases an error
+    def matches_search(self, search: str, input_tables: list = None): #pass in None for first call, re pass in the output for sequential calls to filter down with more terms
         filtered_RollTables = []
         
-        if input_tables is None: 
-            for rt in self.RollTables:  
+        if input_tables is None: #Assume whole list 
+            for rt in self.RollTables:   
                 filtered_RollTables.append(rt)
         else:
             for rt in input_tables:  
@@ -213,7 +213,15 @@ class CTableLibrary:    #contains an list of CRollTables
                     filtered_RollTables.append(rt)
                 
 
-        return filtered_RollTables
+        return filtered_RollTables 
 
 #~
+
+'''def main():
+    CTableLibrary()  
+    print(self.tl.matches_search("", RollTables_filtered))
+
+
+if __name__ == "__main__":
+    main()'''
 
