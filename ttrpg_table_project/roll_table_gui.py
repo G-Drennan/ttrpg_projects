@@ -16,13 +16,32 @@ class CGUI_streamlit:
     def gui_main(self):
        
         search_text = st.text_input(label='Search', type='search', key='1')  
-        input_password = st.text_input(label='Dev Password', type='password', key='3') 
+        input_password = st.text_input(label='Dev Password - required for adding tables, removing tables and editing tags.', type='password', key='3') 
         password = 'W1z@rd5'  
         password_entered = False
         if password == input_password:
              password_entered = True
         if password_entered:
-            new_table_txt = st.text_input(label = 'Table entry:     Delimeter include the first \';\' and every \',\' afterwards e.g - Table Name; entry 1, entry 2, entry 3, entry 4. \nGiven a file path it will also generate tables from txt (Delimeter \',\') and csv files (entires are the table entires only) NOTE: name of the file is the name of the table.', type='default', key='2')
+            new_table_txt = st.text_input(
+                label="Create New Roll Table",
+                placeholder="Table Name; Entry 1, Entry 2, Entry 3",
+                key="2"
+            )
+
+            st.caption("""
+            Format:
+
+            • Manual entry: Table Name; Entry 1, Entry 2, Entry 3
+
+            • File input: Enter the full file path.
+            The file name will be used as the table name.
+
+            • Text file (.txt): One entry per line.
+
+            • CSV file (.csv): Entries only, no header required.
+
+
+            """)            
             if st.button("Create New Table", key='4'): 
                 self.tl._create_new_table(txt = new_table_txt)  #CTableLibrary
                 st.rerun() 
