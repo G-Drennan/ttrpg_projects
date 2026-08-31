@@ -79,11 +79,10 @@ class CGUI_streamlit:
                 st.write(rt._roll_value(rt._roll())) #CRolTable
     
             if st.button("Display Table", key=rt.get_id()+'2'): 
-                        text = rt.markdown_render(create_file = False, output_txt = True) #CRolTable
+                        text = rt.markdown_render(task = 'output_txt') #CRolTable 
                         st.markdown(text)  
     
-            #'''if st.button("Print md", key=rt.get_id()+'3'):  
-                 #rt.markdown_render() #CRolTable '''     
+            st.download_button("Print md", key=rt.get_id()+'3', data = rt.markdown_render(task='output_txt_wth_header'), file_name=f"{rt.name}.md", mime="text/markdown")    
 
  
 
