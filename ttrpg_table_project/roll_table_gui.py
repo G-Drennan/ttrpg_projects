@@ -22,7 +22,7 @@ class CGUI_streamlit:
         if password == input_password:
              password_entered = True
         if password_entered:
-            new_table_txt = st.text_input(label = 'Table entry:     Delimeter include the first \';\' and every \',\' afterwards e.g - Table Name; entry 1, entry 2, entry 3, entry 4', type='default', key='2')
+            new_table_txt = st.text_input(label = 'Table entry:     Delimeter include the first \';\' and every \',\' afterwards e.g - Table Name; entry 1, entry 2, entry 3, entry 4\nGiven a file path it will also generate tables from txt (Delimeter \',\') and csv files', type='default', key='2')
             if st.button("Create New Table", key='4'): 
                 self.tl._create_new_table(txt = new_table_txt)  #CTableLibrary
                 st.rerun() 
