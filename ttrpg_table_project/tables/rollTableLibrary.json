@@ -8,9 +8,9 @@
             "description": "",
             "tags": [
                 "weather",
-                " travel",
-                "D&D",
-                "enviroment"
+                " D&D",
+                " environment",
+                " travel "
             ],
             "diceType": "d3",
             "rangeMode": false,
@@ -56,9 +56,9 @@
             "description": "",
             "tags": [
                 "weather",
-                "D&D",
-                "enviroment",
-                "travel"
+                " D&D",
+                " environment",
+                " travel "
             ],
             "diceType": "d3",
             "rangeMode": false,
@@ -104,9 +104,9 @@
             "description": "",
             "tags": [
                 "weather",
-                "D&D",
-                "enviroment",
-                "travel"
+                " D&D",
+                " environment",
+                " travel "
             ],
             "diceType": "d3",
             "rangeMode": false,
@@ -336,7 +336,7 @@
             "description": "",
             "tags": [
                 "Dungeon",
-                "Enviroment",
+                "environment",
                 " Cairn"
             ],
             "diceType": "d20",
@@ -883,7 +883,7 @@
             "description": "",
             "tags": [
                 "Dungeon",
-                " Enviroment ",
+                " environment ",
                 " Cairn"
             ],
             "diceType": "d20",
@@ -1066,7 +1066,7 @@
             "description": "",
             "tags": [
                 "Dungeon",
-                " Enviroment ",
+                " environment ",
                 " Cairn"
             ],
             "diceType": "d20",
@@ -3190,7 +3190,7 @@
             "tags": [
                 "Forest",
                 " Decription",
-                " Enviroment",
+                " environment",
                 "cairn"
             ],
             "diceType": "d20",
@@ -3374,7 +3374,7 @@
             "tags": [
                 "Forest",
                 " Decription",
-                " Enviroment",
+                " environment",
                 "cairn"
             ],
             "diceType": "d20",
