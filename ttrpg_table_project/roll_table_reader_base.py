@@ -201,14 +201,16 @@ class CTableLibrary:    #contains an list of CRollTables
     def _update_json(self, rt: CRollTable):
         self.rti.update_json(id = rt.get_id(), updated_table= rt.refresh_me()) 
                   
-    def matches_search(self, search: str, input_tables: list = []): #replace with none cuases an error
+    def matches_search(self, search: str, input_tables: list = None): #replace with none cuases an error
         filtered_RollTables = []
         
-        if input_tables == filtered_RollTables:
-            input_tables = self.RollTables
-        for rt in input_tables:  
-            if rt.matches_txt(txt = search):    # only tables matching the txt -non case sensitive- will be displayed others hidden. 
+        if input_tables is None: 
+            for rt in self.RollTables:  
                 filtered_RollTables.append(rt)
+        else:
+            for rt in input_tables:  
+                if rt.matches_txt(txt = search):    # only tables matching the txt -non case sensitive- will be displayed others hidden. 
+                    filtered_RollTables.append(rt)
                 
 
         return filtered_RollTables
