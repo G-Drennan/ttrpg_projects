@@ -3,13 +3,12 @@ import json
 from pathlib import Path 
 import random
 from mdutils.mdutils import MdUtils 
-from roll_table_generator import CRollTableInterface
+from roll_table_generator import CRollTableInterface 
 
 
-#TODO: 3 add error handeling  
+#TODO: 4 add error handeling  
 #TODO: Is CTableLibrary a Repository?  
-#TODO: 1 Download md instead of storeing the file
-#TODO: 2 Add Better instructions 
+#TODO: 2 Download md instead of storeing the file
 
 class CRollTable:   #Holds data related to the table
     def __init__(self,  name, columns, entries, id, description, tags, diceType, rangeMode, rollExpression, folderId, created_at):
@@ -130,7 +129,7 @@ class CRollTable:   #Holds data related to the table
 #~
 
 class CTableLibrary:    #contains an list of CRollTables
-    def __init__(self, fp= Path( "/home/giaan/Desktop/ttrpg_projects/ttrpg_table_project/tables/rollTableLibrary.json")):
+    def __init__(self, fp= Path( "./tables/rollTableLibrary.json")):
         self.rti = CRollTableInterface(fp=fp)  
         self.fp = fp
         self.RollTables = [] 
@@ -216,5 +215,4 @@ class CTableLibrary:    #contains an list of CRollTables
         return filtered_RollTables
 
 #~
-
 
