@@ -5,7 +5,7 @@ import time
 import pandas as pd
 
 class CRollTableInterface:
-    def __init__(self, fp = Path("./tables/rollTableLibrary.json")):
+    def __init__(self, fp = Path("./tables/empty.json")): #"./tables/rollTableLibrary.json"
             self.fp = fp
             self.table_library_dict = self.open_table_library() 
 
@@ -65,26 +65,31 @@ class CRollTableInterface:
                 
                 if self.fp.is_file():  
                     with open(self.fp, 'r') as f: 
-                        loaded_dict = json.load(f) 
+                        try:
+                            loaded_dict = json.load(f) 
+                            return loaded_dict  
+
+                        except:
+                            return  self.create_empty_library()
+
         
-                    return loaded_dict  
                 else:
                     #print(f"File {fp} doesn't exist. Giving empty dict")   
-                    return  self._create_empty_library()
+                    return  self.create_empty_library()
 
-    def _create_empty_library(self):
-        return {
-                "version": 1,
-                "type": "rollTableLibrary",
-                "tables": [],
-                "folders": []
-            }
+    def create_empty_library(self):
+        empty_lib = {
+            "version": 1,
+            "type": "rollTableLibrary",
+            "tables": [],
+            "folders": []
+        }
+        return empty_lib
          
     def add_table(self):  
         self.table_library_dict["tables"].append(self.rtf.get_table()) 
 
     def save_table_to_library(self):  #Add data into json  
-            
             with open(self.fp, 'w') as f: 
                 json.dump(self.table_library_dict, f, indent=4) 
             return self.fp
