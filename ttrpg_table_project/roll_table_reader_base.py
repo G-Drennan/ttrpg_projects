@@ -1,4 +1,4 @@
-
+import os
 import json
 from pathlib import Path 
 import random
@@ -118,7 +118,11 @@ class CRollTable:   #Holds data related to the table
 #~
 
 class CTableLibrary:    #contains an list of CRollTables
-    def __init__(self, fp= Path( "./tables/empty.json")): #"./tables/rollTableLibrary.json"
+    def __init__(self, fp= Path( "./test/new.json")): 
+        #check the path exists if not creaet the file
+        if not fp.parent.exists():
+            fp.parent.mkdir(parents=True, exist_ok=True)
+            
         self.rti = CRollTableInterface(fp=fp)  
         self.fp = fp
         self.RollTables = [] 
@@ -180,9 +184,9 @@ class CTableLibrary:    #contains an list of CRollTables
 
         if _is_text_fp():
             fp = Path(txt) 
-            self.rti.create_from_file(list_fp=fp) #CRollTableInterface
+            self.rti.create_table_from_file(list_fp=fp) #CRollTableInterface
         else:
-            self.rti.create_from_text_entry(text = txt)#''' CRollTableInterface
+            self.rti.create_table_from_text_entry(text = txt)#''' CRollTableInterface
 
     def del_table(self, table_id: str, RollTables_filtered: list):
         removed, _ = self.rti.remove_table_from_library(table_id)#CRollTableInterface
@@ -225,7 +229,6 @@ class CTableLibrary:    #contains an list of CRollTables
 
 def main():
     CTableLibrary()  
-
 
 if __name__ == "__main__":
     main()
