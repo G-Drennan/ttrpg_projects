@@ -3,9 +3,13 @@ from pathlib import Path
 import uuid 
 import time 
 import pandas as pd
+from datetime import datetime
+import shutil
+import random as rand
+import hashlib 
 
 class CRollTableInterface:
-    def __init__(self, fp = Path("./tables/empty.json")): #"./tables/rollTableLibrary.json"
+    def __init__(self, fp = Path("./tables/rollTableLibrary.json")): # 
             self.fp = fp
             self.table_library_dict = self.open_table_library() 
 
@@ -50,16 +54,29 @@ class CRollTableInterface:
         return self.rtf.get_id() 
 
     def create_table_from_text_entry(self, text):
+        name = None
+        mlist = None
         if isinstance(text, tuple):
-            name, txt = text 
-            mlist = [x.strip() for x in txt.split(",") if x.strip()]
-        if isinstance(text, str): 
-            name, txt = text.split(';', 1) #only split at the first ;
-            mlist = [x.strip() for x in txt.split(",") if x.strip()] 
-        self.rtf = CRollTableFactory(mlist, name)
-        self.add_table()
-        self.save_table_to_library() 
-        return self.rtf.get_id()
+            try:
+                name, txt = text 
+                mlist = [x.strip() for x in txt.split(",") if x.strip()]
+            except:
+                            name = None
+                            mlist = None 
+        if isinstance(text, str):
+            try:
+                name, txt = text.split(';', 1) #only split at the first ;
+                mlist = [x.strip() for x in txt.split(",") if x.strip()] 
+            except:
+                name = None
+                mlist = None   
+        if not mlist: 
+            mlist = None  
+        if name is not None and mlist is not None: 
+            self.rtf = CRollTableFactory(mlist, name)
+            self.add_table()
+            self.save_table_to_library() 
+            return self.rtf.get_id() 
 
     def open_table_library(self): #Reads source data
                 
@@ -77,7 +94,9 @@ class CRollTableInterface:
                     #print(f"File {fp} doesn't exist. Giving empty dict")   
                     return  self.create_empty_library()
 
-    def create_empty_library(self):
+    def create_empty_library(self, corrupt = False):
+        if corrupt:
+            self._corrupt_file_handler()
         empty_lib = {
             "version": 1,
             "type": "rollTableLibrary",
@@ -85,6 +104,28 @@ class CRollTableInterface:
             "folders": []
         }
         return empty_lib
+
+
+    def _corrupt_file_handler(self): 
+        
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")   
+        with open(self.fp, "rb") as f:
+            source_data = f.read()
+        source_hash = hashlib.md5(source_data).hexdigest()
+        corrupt_fp = (
+            self.fp.parent /
+            f"{self.fp.stem}_{timestamp}.corrupt{self.fp.suffix}"
+        )
+        #check the  last corrupt_fp is not the same contence as the one about to be made
+        if corrupt_fp.exists():
+            with open(corrupt_fp, "rb") as f:
+                corrupt_hash = f.read()
+            corrupt_hash = hashlib.md5(corrupt_hash).hexdigest()
+            if source_hash != corrupt_hash:
+                corrupt_fp += str(rand())
+
+        shutil.copy2(self.fp, corrupt_fp)
+   
          
     def add_table(self):  
         self.table_library_dict["tables"].append(self.rtf.get_table()) 
@@ -173,7 +214,7 @@ class CTableReaderFactory:
         if fp_end == 'csv':
             return CCsvTableReader(fp)
         elif fp_end == 'txt':
-            return CCsvTableReader(fp)
+            return CTxtTableReader(fp) 
 
 class CTableReader: 
     def __init__(self, fp: Path):
