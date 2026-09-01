@@ -108,7 +108,7 @@ class CRollTableInterface:
 
     def _corrupt_file_handler(self): 
         
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")   
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M")   
         with open(self.fp, "rb") as f:
             source_data = f.read()
         source_hash = hashlib.md5(source_data).hexdigest()
@@ -132,11 +132,14 @@ class CRollTableInterface:
 
     def save_table_to_library(self):  #Add data into json  
             #atomic save
-            temp_fp = self.fp.with_suffix(".tmp")
-            with open(temp_fp, 'w') as f: 
-                json.dump(self.table_library_dict, f, indent=4)
-            temp_fp.replace(self.fp) 
-            return self.fp
+            try:
+                temp_fp = self.fp.with_suffix(".tmp")
+                with open(temp_fp, 'w') as f: 
+                    json.dump(self.table_library_dict, f, indent=4)
+                temp_fp.replace(self.fp) 
+                return True 
+            except:
+                return False
 
 
 
@@ -228,10 +231,7 @@ class CTableReader:
         return ['a', 'b', 'c', 'd']
 
     def get_file_name(self):
-        s = str(self.fp)
-        l = s.split('\\') 
-        l = l[0].split('.')
-        return l[0]
+        return self.fp.stem
           
     def get_file_type(self): 
 
