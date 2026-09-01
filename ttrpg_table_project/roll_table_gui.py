@@ -52,9 +52,9 @@ class CGUI_streamlit:
 
 
     def _search_bar(self, search_input: str):
-            items = search_input.split(' ')
+            items = search_input.split(' ') 
             #RollTables_filtered = self.tl.matches_search(search_input)  #CTableLibrary
-            RollTables_filtered = None 
+            RollTables_filtered = None  
             for i in items: 
                 RollTables_filtered = self.tl.matches_search(i, RollTables_filtered)
 
