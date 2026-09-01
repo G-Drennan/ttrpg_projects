@@ -12,8 +12,8 @@ from roll_table_generator import CRollTableInterface
     #write library.tmp success? write library.json #atomic save pattern 
 
 class CRollTable:   #Holds data related to the table 
-    def __init__(self,  name, columns, entries, id, description, tags, diceType, rangeMode, rollExpression, folderId, created_at):
-        self.name = name
+    def __init__(self,  name:str, columns:list, entries: list, id: str, description: str, tags: list, diceType: str, rangeMode:bool, rollExpression:str, folderId:str, created_at:str):
+        self.name = name 
         self.columns = columns
         self.entries = entries
         self.id = id
@@ -25,7 +25,7 @@ class CRollTable:   #Holds data related to the table
         self.folderId = folderId
         self.created_at = created_at
 
-        self.rti = CRollTableInterface()
+        self.rti = CRollTableInterface() 
 
     def refresh_me(self): #returns
         return { 
@@ -109,18 +109,24 @@ class CRollTable:   #Holds data related to the table
         return mstring
 
     def _roll(self):    #genrate a number from 0 to len(self.entries)
-        max = len(self.entries) -1
-        return random.randint(0, max)
+        max = 0
+        if len(self.entries) >=1:
+            max = len(self.entries) -1
+        elif len(self.entries) == 0:
+            return -1
+        return random.randint(0, max) 
 
     def _roll_value(self, n):
+        if n == -1:
+            return "No entires in the table"
         return self._unpack_list(self.entries[n]['results'])
     
 #~
 
 class CTableLibrary:    #contains an list of CRollTables
-    def __init__(self, fp= Path( "./test/new.json")): 
+    def __init__(self, fp= Path("./tables/rollTableLibrary.json")):  
         #check the path exists if not creaet the file
-        if not fp.parent.exists():
+        if not fp.parent.exists(): #file will always exist 
             fp.parent.mkdir(parents=True, exist_ok=True)
             
         self.rti = CRollTableInterface(fp=fp)  
@@ -136,7 +142,7 @@ class CTableLibrary:    #contains an list of CRollTables
         
                     return loaded_dict 
                 except:
-                    return self.rti.create_empty_library()  
+                    return self.rti.create_empty_library(corrupt=True)   
             else:
                 #print(f"File {fp} doesn't exist . Giving empty dict")   
                 return self.rti.create_empty_library() 
@@ -152,10 +158,11 @@ class CTableLibrary:    #contains an list of CRollTables
         return self.RollTables 
 
     def _proccess_RolltableLibrary(self, d: dict): 
-        mlist = d['tables'] #list of dicts
-        for d in mlist:
-            rt = self._makeRollTable(d)
-            self.RollTables.append(rt) 
+        if 'tables' in d: #else silent failure 
+            mlist = d['tables'] #list of dicts
+            for d in mlist:
+                rt = self._makeRollTable(d)
+                self.RollTables.append(rt) 
 
     def _makeRollTable(self, d):
         name = d.get('name') 
@@ -213,23 +220,20 @@ class CTableLibrary:    #contains an list of CRollTables
                   
     def matches_search(self, search: str, input_tables: list = None): #pass in None for first call, re pass in the output for sequential calls to filter down with more terms
         filtered_RollTables = []
-        
-        if input_tables is None: #Assume whole list 
-            for rt in self.RollTables:   
+
+        search_set = self.RollTables if input_tables is None else input_tables
+        for rt in search_set:  
+            if rt.matches_txt(txt = search):    # only tables matching the txt -non case sensitive- will be displayed others hidden. 
                 filtered_RollTables.append(rt)
-        else:
-            for rt in input_tables:  
-                if rt.matches_txt(txt = search):    # only tables matching the txt -non case sensitive- will be displayed others hidden. 
-                    filtered_RollTables.append(rt)
                 
 
         return filtered_RollTables 
 
 #~
 
-def main():
+'''def main(): 
     CTableLibrary()  
 
 if __name__ == "__main__":
-    main()
+    main()'''
 
