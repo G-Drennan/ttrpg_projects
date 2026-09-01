@@ -8,6 +8,8 @@ from roll_table_generator import CRollTableInterface
 
 #TODO: 4 add error handeling  
 #TODO: Is CTableLibrary a Repository?  
+#TODO: develop a backup method for tables to allow the user to fallback on past json that are not corrupt. 
+    #write library.tmp success? write library.json #atomic save pattern 
 
 class CRollTable:   #Holds data related to the table 
     def __init__(self,  name, columns, entries, id, description, tags, diceType, rangeMode, rollExpression, folderId, created_at):
@@ -116,27 +118,31 @@ class CRollTable:   #Holds data related to the table
 #~
 
 class CTableLibrary:    #contains an list of CRollTables
-    def __init__(self, fp= Path( "./tables/rollTableLibrary.json")):
+    def __init__(self, fp= Path( "./tables/empty.json")): #"./tables/rollTableLibrary.json"
         self.rti = CRollTableInterface(fp=fp)  
         self.fp = fp
         self.RollTables = [] 
         self._Rolltable_Loader() 
 
-    def _open_roll_table_library(self): 
+    def _open_roll_table_library(self): #always returns a valid dict
             if self.fp.is_file():  
-                with open(self.fp, 'r') as f: 
-                    loaded_dict = json.load(f) 
-    
-                return loaded_dict  
+                try:
+                    with open(self.fp, 'r') as f: 
+                        loaded_dict = json.load(f) 
+        
+                    return loaded_dict 
+                except:
+                    return self.rti.create_empty_library()  
             else:
                 #print(f"File {fp} doesn't exist . Giving empty dict")   
-                return {} 
+                return self.rti.create_empty_library() 
             
     def _Rolltable_Loader(self):    #load the tables from self.table_dict one at a time creating a list of CRolltable 
         #first check the dict is a "type": "rollTableLibrary"
         d = self._open_roll_table_library() 
-        if d['type'] == 'rollTableLibrary': 
-            self._proccess_RolltableLibrary(d)
+        if 'type' in d:
+            if d['type'] == 'rollTableLibrary': 
+                self._proccess_RolltableLibrary(d)  #if not called self.RollTables remains empty. 
 
     def get_RollTables(self):
         return self.RollTables 
@@ -217,11 +223,10 @@ class CTableLibrary:    #contains an list of CRollTables
 
 #~
 
-'''def main():
+def main():
     CTableLibrary()  
-    print(self.tl.matches_search("", RollTables_filtered))
 
 
 if __name__ == "__main__":
-    main()'''
+    main()
 
