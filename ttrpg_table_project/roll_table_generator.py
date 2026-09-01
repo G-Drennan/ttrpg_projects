@@ -39,7 +39,7 @@ class CRollTableInterface:
         self.save_table_to_library() 
         return removed, removed_section
              
-    def create_from_file(self, list_fp: Path):
+    def create_table_from_file(self, list_fp: Path):
         trf = CTableReaderFactory() 
         tr = trf.create_CTableReader(fp = list_fp) #to get the lsit and name
         name = tr.get_file_name()
@@ -49,7 +49,7 @@ class CRollTableInterface:
         self.save_table_to_library()  
         return self.rtf.get_id() 
 
-    def create_from_text_entry(self, text):
+    def create_table_from_text_entry(self, text):
         if isinstance(text, tuple):
             name, txt = text 
             mlist = [x.strip() for x in txt.split(",") if x.strip()]
@@ -90,8 +90,11 @@ class CRollTableInterface:
         self.table_library_dict["tables"].append(self.rtf.get_table()) 
 
     def save_table_to_library(self):  #Add data into json  
-            with open(self.fp, 'w') as f: 
-                json.dump(self.table_library_dict, f, indent=4) 
+            #atomic save
+            temp_fp = self.fp.with_suffix(".tmp")
+            with open(temp_fp, 'w') as f: 
+                json.dump(self.table_library_dict, f, indent=4)
+            temp_fp.replace(self.fp) 
             return self.fp
 
 
