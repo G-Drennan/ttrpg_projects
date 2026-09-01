@@ -52,13 +52,23 @@ class CGUI_streamlit:
 
 
     def _search_bar(self, search_input: str):
-            items = search_input.split(' ') 
-            #RollTables_filtered = self.tl.matches_search(search_input)  #CTableLibrary
-            RollTables_filtered = None  
-            for i in items: 
-                RollTables_filtered = self.tl.matches_search(i, RollTables_filtered)
+        items = search_input.split(' ')  
+        corrected_items = []
+        for i in items:
+            if len(i) > 0: #remove empty str
+                corrected_items.append(i) 
 
-            return RollTables_filtered    
+        if len(corrected_items) > 0:
+                items = corrected_items 
+    
+        RollTables_filtered = None   
+        for i in items:  
+            RollTables_filtered = self.tl.matches_search(i, RollTables_filtered)
+
+        return RollTables_filtered  
+
+
+          
 
     def _display_tables(self, RollTables_filtered: list, password_entered = False): #displayes given tables, enalbes control of what tables are displayed.
         for rt in RollTables_filtered:  #CRolTable
