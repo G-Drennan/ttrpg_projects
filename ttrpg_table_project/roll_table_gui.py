@@ -1,4 +1,4 @@
-import streamlit as st      #python -m streamlit run roll_table_gui.py 
+import streamlit as st      #python -m streamlit run roll_table_gui.py
 from roll_table_reader_base import CTableLibrary, CRollTable
 
 
