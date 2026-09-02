@@ -41,6 +41,9 @@ class CRollTable:   #Holds data related to the table
     def get_tags(self):
         return self.tags
 
+    def get_unpacked_tags(self):
+            return self._unpack_list(self.tags)
+
     def get_id(self):
         return self.id
 
@@ -81,12 +84,12 @@ class CRollTable:   #Holds data related to the table
                 roll = str(d['minRoll']) 
             row_entries.append(roll)
 
-            result = self.unpack_list(d['results'])
+            result = self._unpack_list(d['results'])
 
             row_entries.append(result)  
         return row_entries 
 
-    def unpack_list(self, mlist):  #coverts [a,b,c] to a,b,c or [a] to a 
+    def _unpack_list(self, mlist):  #coverts [a,b,c] to a,b,c or [a] to a 
         mstring = ""
         tog = len(mlist) > 0 
         count = 0
@@ -114,7 +117,7 @@ class CRollTable:   #Holds data related to the table
 
         if n == -1:
             return "No entires in the table"
-        return self.unpack_list(self.entries[n]['results'])
+        return self._unpack_list(self.entries[n]['results'])
     
 #~
 
@@ -194,24 +197,19 @@ class CTableLibrary:    #contains an list of CRollTables
 
     def _create_new_table(self, txt: str): #debug 
 
-        def _is_text_fp(): 
-            if Path(txt).suffix == '.csv' or Path(txt).suffix =='.txt':
-                return Path(txt).is_file()
-            else:
-                return False
-
-        if _is_text_fp():
-            fp = Path(txt) 
+        fp = Path(txt)
+        if fp.suffix == '.csv' or fp.suffix =='.txt':
             self.rti.create_table_from_file(list_fp=fp) #CRollTableInterface
         else:
             self.rti.create_table_from_text_entry(text = txt)#''' CRollTableInterface
 
-    def del_table(self, table_id: str, RollTables_filtered: list):
+    def del_table(self, table_id: str, RollTables_filtered: list[CRollTable]):
         removed, _ = self.rti.remove_table_from_library(table_id)#CRollTableInterface
         if removed: 
             return self._remove_table(table_id, RollTables_filtered)  #CTableLibrary    
 
-    def _remove_table(self, table_id:str, RollTables_filtered:list):
+    def _remove_table(self, table_id:str, RollTables_filtered:list[CRollTable]):
+        #rt: CRollTable
         for rt in RollTables_filtered: 
             if rt.get_id() == table_id:
                 self.RollTables.remove(rt) 
@@ -229,20 +227,20 @@ class CTableLibrary:    #contains an list of CRollTables
     def _update_json(self, rt: CRollTable):
         self.rti.update_json(id = rt.get_id(), updated_table= rt.refresh_me()) 
                   
-    def _matches_search(self, search: str, input_tables: list = None): #pass in None for first call, re pass in the output for sequential calls to filter down with more terms
+    def _matches_search(self, search: str, input_tables: list[CRollTable] = None): #pass in None for first call, re pass in the output for sequential calls to filter down with more terms
         filtered_RollTables = []
 
         search_set = self.RollTables if input_tables is None else input_tables
+        #rt: CRollTable
         for rt in search_set:  
             if rt.matches_txt(txt = search):    # only tables matching the txt -non case sensitive- will be displayed others hidden. 
                 filtered_RollTables.append(rt)
-                
-
         return filtered_RollTables 
 
 #~
 
-'''def main(): 
+'''
+def main(): 
     CTableLibrary()  
 
 if __name__ == "__main__":
