@@ -191,7 +191,7 @@ class CRollTableFactory:        #converts given list into the required json form
             }
         ]
 
-    def _create_entries(self, ):
+    def _create_entries(self):
         #use mlsit to fill in results
         entries = []
         for i, item in enumerate(self.mlist):
