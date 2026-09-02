@@ -79,9 +79,9 @@ class CGUI_streamlit:
     
             st.markdown(f"## {rt.name}")
             tab = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-            st.markdown(f"*Tags: {rt.get_unpacked_tags(rt.tags)}{tab}-{tab}Dice Type: {rt.rollExpression}*") #CRolTable
+            st.markdown(f"*Tags: {rt.get_unpacked_tags()}{tab}-{tab}Dice Type: {rt.rollExpression}*") #CRolTable
     
-            if st.button("🎲 Roll", key=rt.get_id()+'1'): 
+            if st.button("🎲 Roll", key=rt.get_id()+'1'):  
                 
                 st.write(rt.roll_value()) #CRollTable  
     
