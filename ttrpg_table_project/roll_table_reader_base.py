@@ -5,9 +5,6 @@ import random
 from mdutils.mdutils import MdUtils 
 from roll_table_generator import CRollTableInterface 
 
-
-#TODO: 4 add error handeling  
-#TODO: Is CTableLibrary a Repository?  
 #TODO: develop a backup method for tables to allow the user to fallback on past json that are not corrupt. 
     #write library.tmp success? write library.json #atomic save pattern 
 
@@ -24,8 +21,6 @@ class CRollTable:   #Holds data related to the table
         self.rollExpression = rollExpression    #What is displayed
         self.folderId = folderId
         self.created_at = created_at
-
-        self.rti = CRollTableInterface() 
 
     def refresh_me(self): #returns
         return { 
@@ -59,9 +54,9 @@ class CRollTable:   #Holds data related to the table
                     return True 
         return False
 
-    def markdown_render(self, task: str = 'create_file'):  #Either create a file or only write the table in md
+    def markdown_render(self, task: str = 'output_txt'):  #Either write the table in md
         md = MdUtils(file_name=self.name) 
-        if task == 'create_file' or task == 'output_txt_wth_header':
+        if  task == 'output_txt_wth_header':
             md.new_header(level=1, title=self.name)
         table_text = [] 
         tableHeader = ["Roll", "Name"]
@@ -75,11 +70,7 @@ class CRollTable:   #Holds data related to the table
             text= table_text
         ) 
         
-        if task == 'output_txt' or task == 'output_txt_wth_header':
-            return md.get_md_text()
-        
-        if task == 'create_file':
-            md.create_md_file()
+        return md.get_md_text()
 
     def _extract_enties(self):  #Puts enteries into a list for md
         row_entries = []
@@ -116,7 +107,9 @@ class CRollTable:   #Holds data related to the table
             return -1
         return random.randint(0, max) 
 
-    def _roll_value(self, n):
+    def roll_value(self):
+        n = self._roll() 
+
         if n == -1:
             return "No entires in the table"
         return self._unpack_list(self.entries[n]['results'])
