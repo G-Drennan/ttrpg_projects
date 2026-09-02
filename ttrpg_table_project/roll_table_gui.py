@@ -11,9 +11,9 @@ class CGUI_streamlit:
 
     def main_page(self):
         st.markdown("# ROLL TABLE LIBRARY") 
-        self.gui_main() #tables and search bar
+        self._gui_main() #tables and search bar
  
-    def gui_main(self):
+    def _gui_main(self):
        
         search_text = st.text_input(label='Search', type='search', key='1')  
         input_password = st.text_input(label='Dev Password - required for adding tables, removing tables and editing tags.', type='password', key='3') 
@@ -46,21 +46,21 @@ class CGUI_streamlit:
                 self.tl._create_new_table(txt = new_table_txt)  #CTableLibrary
                 st.rerun() 
         
-        self._display_tables(self.tl.search_bar(search_text))    #CRolTable  
+        self._display_tables(self.tl.search_bar(search_text))    #CTableLibrary  
     
 
-    def _display_tables(self, RollTables_filtered: list): #displayes given tables - a list of #CRolTable-, enalbes control of what tables are displayed.
-        for rt in RollTables_filtered:  #CRolTable
+    def _display_tables(self, RollTables_filtered: list[CRollTable]): #displayes given tables - a list of #CRolTable-, enalbes control of what tables are displayed.
+        for rt in RollTables_filtered:  #CRollTable
             self._GUI_fragment_roll_display_print(rt)  
 
             self._GUI_fragment_tags(rt)
 
             self._GUI_fragment_del(rt, RollTables_filtered) 
 
-    def _GUI_fragment_del(self, rt: CRollTable, RollTables_filtered: list):#""" #CRollTable 
+    def _GUI_fragment_del(self, rt: CRollTable, RollTables_filtered: list[CRollTable]):#""" #CRollTable 
             if self.password_entered:
                 if st.button("Delete Table", key=rt.get_id()+'5'):
-                    table_id = rt.get_id() #CRolTable
+                    table_id = rt.get_id() #CRollTable
                     self.tl.del_table(table_id, RollTables_filtered) 
                     st.rerun() 
 
@@ -68,18 +68,18 @@ class CGUI_streamlit:
         if self.password_entered: 
             new_tags = st.text_input(label='Enter New Tags: Delimeter is \',\' e.g Tag 1, Tag 2', type='default', key=rt.get_id()+'6') 
             if st.button("Modify Tags", key=rt.get_id()+'4'):
-                self.tl.add_tags(new_tags, rt=rt) #CRolTable
+                self.tl.add_tags(new_tags, rt=rt) #CTableLibrary
                 st.rerun() 
 
             if st.button("Remove Tags", key=rt.get_id()+'7'):
-                self.tl.remove_tags(rt=rt) 
+                self.tl.remove_tags(rt=rt)  #CTableLibrary
                 st.rerun() 
     
     def _GUI_fragment_roll_display_print(self, rt: CRollTable):  #CRollTable 
     
             st.markdown(f"## {rt.name}")
             tab = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-            st.markdown(f"*Tags: {rt.unpack_list(rt.tags)}{tab}-{tab}Dice Type: {rt.rollExpression}*") #CRolTable
+            st.markdown(f"*Tags: {rt.get_unpacked_tags(rt.tags)}{tab}-{tab}Dice Type: {rt.rollExpression}*") #CRolTable
     
             if st.button("🎲 Roll", key=rt.get_id()+'1'): 
                 
