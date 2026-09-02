@@ -90,7 +90,6 @@ class CGUI_streamlit:
             new_tags = st.text_input(label='Enter New Tags: Delimeter is \',\' e.g Tag 1, Tag 2', type='default', key=rt.get_id()+'6') 
             if st.button("Modify Tags", key=rt.get_id()+'4'):
                 self.tl.add_tags(new_tags, rt=rt) #CRolTable
-                #TODO: modify the json at CRollTable level
                 st.rerun() 
 
             if st.button("Remove Tags", key=rt.get_id()+'7'):
@@ -105,7 +104,7 @@ class CGUI_streamlit:
     
             if st.button("🎲 Roll", key=rt.get_id()+'1'): 
                 
-                st.write(rt._roll_value(rt._roll())) #CRolTable
+                st.write(rt.roll_value()) #CRollTable 
     
             if st.button("Display Table", key=rt.get_id()+'2'): 
                         text = rt.markdown_render(task = 'output_txt') #CRolTable 
