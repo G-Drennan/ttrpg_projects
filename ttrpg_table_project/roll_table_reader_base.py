@@ -81,12 +81,12 @@ class CRollTable:   #Holds data related to the table
                 roll = str(d['minRoll']) 
             row_entries.append(roll)
 
-            result = self._unpack_list(d['results'])
+            result = self.unpack_list(d['results'])
 
             row_entries.append(result)  
         return row_entries 
 
-    def _unpack_list(self, mlist):  #coverts [a,b,c] to a,b,c or [a] to a 
+    def unpack_list(self, mlist):  #coverts [a,b,c] to a,b,c or [a] to a 
         mstring = ""
         tog = len(mlist) > 0 
         count = 0
@@ -107,12 +107,14 @@ class CRollTable:   #Holds data related to the table
             return -1
         return random.randint(0, max) 
 
+
+
     def roll_value(self):
         n = self._roll() 
 
         if n == -1:
             return "No entires in the table"
-        return self._unpack_list(self.entries[n]['results'])
+        return self.unpack_list(self.entries[n]['results'])
     
 #~
 
@@ -126,6 +128,22 @@ class CTableLibrary:    #contains an list of CRollTables
         self.fp = fp
         self.RollTables = [] 
         self._Rolltable_Loader() 
+    
+    def search_bar(self, search_input: str):
+        items = search_input.split(' ')  
+        corrected_items = []
+        for i in items:
+            if len(i) > 0: #remove empty str
+                corrected_items.append(i) 
+
+        if len(corrected_items) > 0:
+                items = corrected_items 
+    
+        RollTables_filtered = None   
+        for i in items:  
+            RollTables_filtered = self._matches_search(i, RollTables_filtered)
+
+        return RollTables_filtered  #CRolTable
 
     def _open_roll_table_library(self): #always returns a valid dict
             if self.fp.is_file():  
@@ -211,7 +229,7 @@ class CTableLibrary:    #contains an list of CRollTables
     def _update_json(self, rt: CRollTable):
         self.rti.update_json(id = rt.get_id(), updated_table= rt.refresh_me()) 
                   
-    def matches_search(self, search: str, input_tables: list = None): #pass in None for first call, re pass in the output for sequential calls to filter down with more terms
+    def _matches_search(self, search: str, input_tables: list = None): #pass in None for first call, re pass in the output for sequential calls to filter down with more terms
         filtered_RollTables = []
 
         search_set = self.RollTables if input_tables is None else input_tables
