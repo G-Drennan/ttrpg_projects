@@ -131,6 +131,10 @@ class CTableLibrary:    #contains an list of CRollTables
         self.fp = fp
         self.RollTables = [] 
         self._Rolltable_Loader() 
+
+    def reload(self):
+        self.RollTables.clear()
+        self._Rolltable_Loader()
     
     def search_bar(self, search_input: str):
         items = search_input.split(' ')  
