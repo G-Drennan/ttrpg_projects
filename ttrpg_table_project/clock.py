@@ -51,17 +51,19 @@ class CClk_Lib:
             self.clk_dict[name].tick_down()
 
 class CClk_Gui:
-    def __init__(self):
+    def __init__(self, parent: tk.Tk):
          
-       
+        self.root = tk.Toplevel(parent)
+        self.root.title("Clock Tracker")
         self.clk_lib = CClk_Lib()
+        self.core() 
+        #self.root.mainloop()
 
 
     def core(self):
-        root = tk.Tk()
-        root.title("Clock Tracker")
+        
 
-        create_frame = tk.Frame(root)
+        create_frame = tk.Frame(self.root)
         create_frame.pack()
 
         tk.Label(create_frame, text="Name").pack(side="left")
@@ -74,7 +76,7 @@ class CClk_Gui:
 
         tk.Button(create_frame, text="Create", command=lambda: self._add_clk(name_entry.get(),int(count_entry.get())) ).pack(side="left")
 
-        root.mainloop()
+        
 
     def _add_clk(self, name: str, count_total: int):
         self.clk_lib.add_clk(name=name, count_total=count_total)
@@ -82,7 +84,7 @@ class CClk_Gui:
 
     def _display_clk(self, name: str):
         
-        clk_root = tk.Tk()
+        clk_root = tk.Toplevel(self.root)
         clk_root.title(name)
         curr_frame = tk.Frame(clk_root)
         curr_frame.pack()
@@ -125,8 +127,8 @@ class CClk_Gui:
         return progressbar
 
 def main():
-    go = CClk_Gui()
-    go.core()
+    CClk_Gui()
+    
 
 if __name__ == "__main__":
     main()
