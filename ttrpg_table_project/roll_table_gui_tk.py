@@ -209,6 +209,12 @@ class CGUI:
             command=lambda r=rt: self.show_table(r)
         ).pack(side="left")
 
+        tk.Button(
+            btn_frame,
+            text="Print md",
+            command=lambda r=rt: self.save_markdown(r)
+        ).pack(side="left")
+
         if self.password_entered:
 
             tk.Button(
@@ -279,6 +285,36 @@ class CGUI:
     ):
         self.tl.remove_tags(rt=rt)
         self.refresh_tables()
+
+    def save_markdown(self, rt):
+        filename = filedialog.asksaveasfilename(
+            defaultextension=".md",
+            initialfile=f"{rt.name}.md",
+            filetypes=[("Markdown files", "*.md"),
+                    ("All files", "*.*")]
+        )
+ 
+        if not filename:
+            return
+
+        try:
+            with open(filename, "w", encoding="utf-8") as f:
+                f.write(
+                    rt.markdown_render(
+                        task="output_txt_wth_header"
+                    )
+                )
+
+            messagebox.showinfo(
+                "Success",
+                f"Saved to:\n{filename}"
+            )
+
+        except Exception as ex:
+            messagebox.showerror(
+                "Error",
+                str(ex)
+            )
 
 
 def main():
