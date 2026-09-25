@@ -4,21 +4,21 @@ from tkinter import ttk, messagebox, filedialog
 from roll_table_reader_base import CTableLibrary, CRollTable
 
 
-class CGUI:
+class CGUI_tk:
     DEV_PASSWORD = "W1z@rd5"
 
-    def __init__(self):
+    def __init__(self, parent: tk.Tk):
         self.tl = CTableLibrary()
         self.password_entered = False
 
-        self.root = tk.Tk()
+        self.root = tk.Toplevel(parent)
         self.root.title("Roll Table Library")
         self.root.geometry("900x700")
 
         self._build_ui()
         self.refresh_tables()
 
-        self.root.mainloop()
+        
 
     def _build_ui(self):
         title = tk.Label(
@@ -160,7 +160,7 @@ class CGUI:
             widget.destroy()
 
         search_text = self.search_var.get()
-
+        self.tl.reload() 
         tables = self.tl.search_bar(search_text)
 
         for rt in tables:
@@ -318,7 +318,7 @@ class CGUI:
 
 
 def main():
-    CGUI()
+    CGUI_tk()
 
 
 if __name__ == "__main__":
