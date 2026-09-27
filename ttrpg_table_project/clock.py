@@ -50,7 +50,7 @@ class CClk_Lib:
         elif mode == 'd':
             self.clk_dict[name].tick_down()
 
-class CClk_Gui:
+class CClk_Gui_tk:
     def __init__(self, parent: tk.Tk):
          
         self.root = tk.Toplevel(parent)
@@ -125,10 +125,3 @@ class CClk_Gui:
         if self.clk_lib.current_clk.iscomplete():
             progressbar += " FULL" 
         return progressbar
-
-def main():
-    CClk_Gui()
-    
-
-if __name__ == "__main__":
-    main()

@@ -315,11 +315,3 @@ class CGUI_tk:
                 "Error",
                 str(ex)
             )
-
-
-def main():
-    CGUI_tk()
-
-
-if __name__ == "__main__":
-    main()
