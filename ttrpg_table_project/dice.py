@@ -4,12 +4,12 @@ import tkinter as tk
 from tkinter import ttk
 
 
-class CDice_gui_tk(tk.Toplevel):
-    def __init__(self, root):
-        super().__init__(root)
+class CDice_gui_tk: 
+    def __init__(self, parent):
+        self.root = tk.Toplevel(parent)
 
-        self.title("Dice Roller")
-        self.geometry("500x400")
+        self.root.title("Dice Roller")
+        self.root.geometry("500x400")
 
         self.dice_lib = CDice_Roller_lib()
 
@@ -17,65 +17,27 @@ class CDice_gui_tk(tk.Toplevel):
 
     def _build_gui(self):
 
-        # ------------------------
-        # Add Dice Row
-        # ------------------------
-        top = ttk.Frame(self)
+       
+        top = ttk.Frame(self.root)
         top.pack(fill="x", padx=5, pady=5)
-
+         #User input
         ttk.Label(top, text="Expression:").pack(side="left")
-
         self.entry = ttk.Entry(top)
         self.entry.pack(side="left", fill="x", expand=True, padx=5)
 
-        ttk.Button(
-            top,
-            text="Add",
-            command=self.add_dice
-        ).pack(side="left")
+        #add
+        ttk.Button(top,text="Add",command=self.add_dice).pack(side="left")
 
-        # ------------------------
-        # Scrollable Dice List
-        # ------------------------
-        middle = ttk.Frame(self)
+        middle = ttk.Frame(self.root)
         middle.pack(fill="both", expand=True, padx=5, pady=5)
 
-        canvas = tk.Canvas(middle)
-        scrollbar = ttk.Scrollbar(
-            middle,
-            orient="vertical",
-            command=canvas.yview
-        )
-
-        self.roll_frame = ttk.Frame(canvas)
-
-        self.roll_frame.bind(
-            "<Configure>",
-            lambda e: canvas.configure(
-                scrollregion=canvas.bbox("all")
-            )
-        )
-
-        canvas.create_window(
-            (0, 0),
-            window=self.roll_frame,
-            anchor="nw"
-        )
-
-        canvas.configure(yscrollcommand=scrollbar.set)
-
-        canvas.pack(side="left", fill="both", expand=True)
-        scrollbar.pack(side="right", fill="y")
-
-        # ------------------------
         # Result
-        # ------------------------
         self.result_var = tk.StringVar(
             value="Result:"
         )
 
         ttk.Label(
-            self,
+            self.root,
             textvariable=self.result_var,
             font=("Arial", 14)
         ).pack(fill="x", padx=5, pady=5)
@@ -90,22 +52,26 @@ class CDice_gui_tk(tk.Toplevel):
         try:
             self.dice_lib.add(expr)
 
-            row = ttk.Frame(self.roll_frame)
-            row.pack(fill="x", pady=2)
+            curr_frame = tk.LabelFrame(
+                        self.root,
+                        text=expr
+            )
+            curr_frame.pack( 
+                fill="x",
+                padx=5,
+                pady=5
+            )
+            
+            btn_frame = tk.Frame(curr_frame)
+            btn_frame.pack(fill="x")
 
-            ttk.Label(
-                row,
-                text=expr
-            ).pack(side="left", padx=5)
-
-            ttk.Button(
-                row,
+                
+            tk.Button(
+                btn_frame,
                 text="Roll",
-                command=lambda e=expr:
-                self.roll_dice(e)
+                command=lambda:
+                    self.roll_dice(expr)
             ).pack(side="right")
-
-            self.entry.delete(0, tk.END)
 
         except Exception as err:
             self.result_var.set(f"Error: {err}")

@@ -83,26 +83,83 @@ class CClk_Gui_tk:
         self._display_clk(name=name)
 
     def _display_clk(self, name: str):
-        
-        clk_root = tk.Toplevel(self.root)
-        clk_root.title(name)
-        curr_frame = tk.Frame(clk_root)
-        curr_frame.pack()
-       
-
         self.clk_lib.set_current_clk(name)
-        tk.Label(curr_frame, text=name).pack(side="left")
-        progress_label = tk.Label( curr_frame,text=self._progress_display())
+        #clk_root = tk.Toplevel(self.root)
+        #clk_root.title(name)
+        curr_frame = tk.LabelFrame(
+            self.root,
+            text=name
+        )
+        curr_frame.pack( 
+            fill="x",
+            padx=5,
+            pady=5
+        )
 
-        progress_label.pack(side="left")
-        tk.Button(curr_frame, text="+1", command=lambda: self._tick(name=name, mode = 'u', progress_label = progress_label) ).pack(side="left")
-        tk.Button(curr_frame, text="-1", command=lambda: self._tick(name=name, mode = 'd', progress_label = progress_label) ).pack(side="left")
-        tk.Button(curr_frame, text="Reset", command=lambda: self._reset(progress_label=progress_label) ).pack(side="left")
-        tk.Button(curr_frame, text="Remove", command=lambda: self._remove(name=name, clk_root = clk_root) ).pack(side="left")
+        progress_label = tk.Label(
+            curr_frame,
+            text=self._progress_display()
+        )
+        progress_label.pack(anchor="w")
+
+        btn_frame = tk.Frame(curr_frame)
+        btn_frame.pack(fill="x")
+
+        tk.Button(
+            btn_frame,
+            text="+1",
+            command=lambda:
+                self._tick(
+                    name=name,
+                    mode='u',
+                    progress_label=progress_label
+                )
+        ).pack(side="left")
+
+        tk.Button(
+            btn_frame,
+            text="-1",
+            command=lambda:
+                self._tick(
+                    name=name,
+                    mode='d',
+                    progress_label=progress_label
+                )
+        ).pack(side="left")
+
+        tk.Button(
+            btn_frame,
+            text="Reset",
+            command=lambda:
+                self._reset(progress_label)
+        ).pack(side="left")
+
+        tk.Button(
+            btn_frame,
+            text="Remove",
+            command=lambda:
+                self._remove(name, self.root)
+        ).pack(side="left")
 
     def _remove(self, name: str, clk_root: tk.Tk):
         self.clk_lib.remove_clk(name=name)
-        clk_root.destroy() 
+        self._refresh_clks() 
+
+    def _refresh_clks(self):
+
+
+        # Returns a list of all widgets currently inside self.clk_frame
+        for widget in self.root.winfo_children():
+            # Permanently remove the widget from the GUI
+            widget.destroy()
+
+        #Reset the display
+        self.core() 
+
+        # Returns (name, clk) pairs from your library
+        for name, clk in self.clk_lib.clk_dict.items():
+            # Your function that draws one clock
+            self._display_clk(name)
 
     def _tick(self, name: str, mode: str, progress_label: tk.Label):
         self.clk_lib.tick(name=name, mode = mode) 
