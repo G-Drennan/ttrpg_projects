@@ -43,7 +43,6 @@ class CDice_gui_tk:
         ).pack(fill="x", padx=5, pady=5)
 
     def add_dice(self):
-
         expr = self.entry.get().strip()
 
         if not expr:
@@ -51,30 +50,37 @@ class CDice_gui_tk:
 
         try:
             self.dice_lib.add(expr)
-
-            curr_frame = tk.LabelFrame(
-                        self.root,
-                        text=expr
-            )
-            curr_frame.pack( 
-                fill="x",
-                padx=5,
-                pady=5
-            )
-            
-            btn_frame = tk.Frame(curr_frame)
-            btn_frame.pack(fill="x")
-
-                
-            tk.Button(
-                btn_frame,
-                text="Roll",
-                command=lambda:
-                    self.roll_dice(expr)
-            ).pack(side="right")
+            self._display_dice(expr)
 
         except Exception as err:
             self.result_var.set(f"Error: {err}")
+
+    def _display_dice(self, expr):
+        curr_frame = tk.LabelFrame(
+            self.root,
+            text=expr
+        )
+
+        curr_frame.pack(
+            fill="x",
+            padx=5,
+            pady=5
+        )
+
+        btn_frame = tk.Frame(curr_frame)
+        btn_frame.pack(fill="x")
+
+        tk.Button(
+            btn_frame,
+            text="Remove",
+            command=lambda: self._remove_dice(expr)
+        ).pack(side="left")
+
+        tk.Button(
+            btn_frame,
+            text="Roll",
+            command=lambda: self.roll_dice(expr)
+        ).pack(side="right")
 
     def roll_dice(self, expr):
 
@@ -83,6 +89,20 @@ class CDice_gui_tk:
         self.result_var.set(
             f"{expr} = {result}"
         )
+    
+    def _remove_dice(self, expr):
+        self.dice_lib.remove(expr)
+        self._refresh_dice()
+
+    def _refresh_dice(self):
+        for widget in self.root.winfo_children():
+            widget.destroy()
+
+        self._build_gui()
+
+        for expr in self.dice_lib.dice_lib:
+            self._display_dice(expr)
+    
     # |User Input| [add]
     #List of dice added 
         #Dice Text from user input [roll] result text
@@ -96,6 +116,9 @@ class CDice_Roller_lib:
     
     def roll_die(self,user_input): 
         return self.dice_lib[user_input].get_roll()
+
+    def remove(self, user_input):
+        self.dice_lib.pop(user_input, None)
 
 class CDice_Roller:
     def __init__(self, user_input: str):
