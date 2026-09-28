@@ -109,7 +109,14 @@ class CRoll_table_GUI_tk:
         btn_frame = tk.Frame(frame)
         btn_frame.pack(fill="x")
 
-        tk.Button(btn_frame,text="🎲 Roll",command=lambda r=rt: messagebox.showinfo("Roll Result", str(r.roll_value()))).pack(side="left")
+        result_label = tk.Label(btn_frame, text="")
+        result_label.pack(side="right", padx=5)
+
+        tk.Button(
+            btn_frame,
+            text="🎲 Roll",
+            command=lambda r=rt, lbl=result_label: lbl.config(text=str(r.roll_value()))
+        ).pack(side="left")
 
         tk.Button(btn_frame,text="Display Table",command=lambda r=rt: self.show_table(r)).pack(side="left")
 
