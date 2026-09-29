@@ -180,7 +180,7 @@ class CTableLibrary:    #contains an list of CRollTables
             mlist = d['tables'] #list of dicts
             for d in mlist:
                 rt = self._makeRollTable(d)
-                self.RollTables.append(rt) 
+                self.RollTables.insert(rt) 
 
     def _makeRollTable(self, d):
         name = d.get('name') 
